@@ -1,16 +1,16 @@
 package com.hiten.bankmanagementsystem.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Customer {
-    private String customerId;
+    private int customerId;
     private String name;
     private String phoneNumber;
     private String email;
     private String password;
-    private Date createdAt;
+    private LocalDate createdAt;
 
-    public Customer(String customerId, String name, String phoneNumber, String email, String password, Date createdAt){
+    public Customer(int customerId, String name, String phoneNumber, String email, String password, LocalDate createdAt){
         this.customerId = customerId;
         this.name=name;
         this.email = email;
@@ -18,5 +18,6 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.createdAt = createdAt;
     }
+
 
 }
