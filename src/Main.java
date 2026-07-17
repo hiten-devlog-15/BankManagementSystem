@@ -16,7 +16,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter Name");
-        String name = scanner.next();
+        String name = scanner.nextLine();
 
         System.out.println("Enter Phone Number");
         String phoneNumber = scanner.next();
@@ -30,12 +30,7 @@ public class Main {
         CustomerService customerService = new CustomerService(customerRepository, idGenerator, validator);
         customerService.registerCustomer(name, phoneNumber, email, password);
 
-        boolean registered = customerService.registerCustomer(
-                name,
-                phoneNumber,
-                email,
-                password
-        );
+        boolean registered = customerService.registerCustomer(name, phoneNumber, email, password);
 
         if (registered) {
             System.out.println("Customer registered successfully.");

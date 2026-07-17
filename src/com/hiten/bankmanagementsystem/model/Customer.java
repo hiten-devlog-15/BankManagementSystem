@@ -19,5 +19,12 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber(){
+        return phoneNumber;
+    }
 
 }

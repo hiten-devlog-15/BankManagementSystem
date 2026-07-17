@@ -23,12 +23,16 @@ public class CustomerService {
     Customer customer;
     public boolean registerCustomer(String name, String phoneNumber, String email, String password){ //For v1 --> boolean return
         LocalDate createdAt = LocalDate.now();
-        if(!validator.validateEmail(email)){
+        if(!validator.validateEmail(email) || !validator.validatePhoneNumber(phoneNumber) ||
+                customerRepository.duplicateEmail(email) || customerRepository.duplicatePhoneNumber(phoneNumber)){
             return false;
         }
-
         customer = new Customer(idGenerator.generateId(), name, phoneNumber, email, password, createdAt);
         customerRepository.saveCustomer(customer);
         return true;
     }
+
+//    public void loginCustomer(){
+//        if(!customerRepository.findCustomerByEmail(customer.getEmail()))
+//    }
 }
