@@ -27,4 +27,7 @@ public class Customer {
         return phoneNumber;
     }
 
+    public int getCustomerId(){
+        return customerId;
+    }
 }

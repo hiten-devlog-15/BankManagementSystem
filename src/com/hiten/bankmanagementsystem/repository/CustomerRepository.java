@@ -32,6 +32,14 @@ public class CustomerRepository {
         return null;
     }
 
+    public Customer findCustomerById(int customerId){
+        for(Customer customer : customerList){
+            if(customer.getCustomerId() == customerId){
+                return customer;
+            }
+        }
+        return null;
+    }
 
     public boolean duplicateEmail(String email){
         return findCustomerByEmail(email) != null;
@@ -39,6 +47,10 @@ public class CustomerRepository {
 
     public boolean duplicatePhoneNumber(String phoneNumber){
         return findCustomerByPhoneNumber(phoneNumber) != null;
+    }
+
+    public boolean existsId(int customerId){
+        return findCustomerById(customerId) != null;
     }
 
 }

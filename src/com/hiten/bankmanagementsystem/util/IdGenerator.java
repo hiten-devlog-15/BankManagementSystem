@@ -4,10 +4,21 @@ import java.util.Random;
 
 public class IdGenerator {
     int customerId;
-    public int generateId(){
+    public int generateCustomerId(){
         Random random =new Random();
-        customerId = 10000 + random.nextInt(90000);
+        customerId = 10000 + random.nextInt(19000);
         return customerId;
+    }
+
+    public int getCustomerId(){
+        return customerId;
+    }
+
+    public int generateAccountId(){
+        int accountId;
+        Random random = new Random();
+        accountId = 20000 + random.nextInt(30000);
+        return accountId;
     }
 
 }

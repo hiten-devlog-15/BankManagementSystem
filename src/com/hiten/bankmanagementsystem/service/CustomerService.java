@@ -27,12 +27,9 @@ public class CustomerService {
                 customerRepository.duplicateEmail(email) || customerRepository.duplicatePhoneNumber(phoneNumber)){
             return false;
         }
-        customer = new Customer(idGenerator.generateId(), name, phoneNumber, email, password, createdAt);
+        customer = new Customer(idGenerator.generateCustomerId(), name, phoneNumber, email, password, createdAt);
         customerRepository.saveCustomer(customer);
         return true;
     }
 
-//    public void loginCustomer(){
-//        if(!customerRepository.findCustomerByEmail(customer.getEmail()))
-//    }
 }
