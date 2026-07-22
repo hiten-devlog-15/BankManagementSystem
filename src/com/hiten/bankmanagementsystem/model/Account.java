@@ -11,6 +11,7 @@ public class Account {
     private String accountStatus;
     private LocalDate createdAt;
 
+
     public Account(Customer customer, int accountId, String accountType, int currentBalance, String accountStatus, LocalDate createdAt){
         this.customer = customer;
         this.accountId = accountId;
@@ -24,8 +25,14 @@ public class Account {
         return customer;
     }
 
+    public int getAccountId(){
+        return accountId;
+    }
 
 
+    public void depositAmount(int amount){
+        currentBalance = currentBalance + amount;
+    }
 
 
 }

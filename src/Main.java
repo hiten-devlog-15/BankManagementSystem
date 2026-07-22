@@ -50,7 +50,7 @@ public class Main {
         int initialDeposit = scanner.nextInt();
 
         AccountRepository accountRepository = new AccountRepository();
-        AccountService accountService =new AccountService(customerRepository, accountRepository, idGenerator);
+        AccountService accountService =new AccountService(customerRepository, accountRepository, idGenerator, validator);
 
         boolean accountCreated = accountService.createAccount(customerID, accountType, initialDeposit);
         if(accountCreated){
@@ -59,5 +59,19 @@ public class Main {
         else {
             System.out.println("Unable to create Account. Try Again");
         }
+
+
+
+        //Deposit code
+        System.out.println("Enter Account ID:");
+        int accountId = scanner.nextInt();
+
+        System.out.println("Enter Amount:");
+        int amount = scanner.nextInt();
+
+        accountService.deposit(accountId, amount);
+
+
+
     }
 }

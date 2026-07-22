@@ -15,12 +15,13 @@ AccountService {
     private AccountRepository accountRepository;
     private CustomerRepository customerRepository;
     private IdGenerator idGenerator;
+    private Validator validator;
 
-
-    public AccountService(CustomerRepository customerRepository, AccountRepository accountRepository,  IdGenerator idGenerator){
+    public AccountService(CustomerRepository customerRepository, AccountRepository accountRepository,  IdGenerator idGenerator, Validator validator){
         this.customerRepository = customerRepository;
         this.accountRepository = accountRepository;
         this.idGenerator = idGenerator;
+        this.validator = validator;
     }
 
     public boolean createAccount(int customerId, String accountType, int initialDeposit){
@@ -49,4 +50,16 @@ AccountService {
             return false;
         }
     }
+
+
+    public boolean deposit(int accountId, int amount) {
+        Account account = accountRepository.findAccountById(accountId);
+        if (account == null || !validator.validateAmount(amount)) {
+            return false;
+        }
+        account.depositAmount(amount);
+        return true;
+    }
+
+
 }

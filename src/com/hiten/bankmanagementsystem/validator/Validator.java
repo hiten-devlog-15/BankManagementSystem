@@ -9,4 +9,12 @@ public class Validator {
     public boolean validatePhoneNumber(String phoneNumber){
         return phoneNumber.length() == 10;
     }
+
+    public boolean validateAmount(int amount){
+        if(amount>0){
+            return true;
+        }
+        return false;
+    }
+
 }

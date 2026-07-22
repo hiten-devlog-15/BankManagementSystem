@@ -25,5 +25,19 @@ public class AccountRepository {
         return false;
     }
 
+    public Account findAccountById(int accountId){
+        for(Account account : accountList){
+            if(account.getAccountId() == accountId){
+                return account;
+            }
+        }
+        return null;
+    }
+
+    public boolean accountExist(int accountId){
+        return findAccountById(accountId) != null;
+    }
+
+
 
 }
