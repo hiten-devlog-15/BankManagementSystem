@@ -63,7 +63,7 @@ AccountService {
 
     public boolean withdraw(int accountId, int amount){
         Account account = accountRepository.findAccountById(accountId);
-        if(account == null || !validator.validateAmount(amount) || account.getCurrentBalance()>=amount){
+        if(account == null || !validator.validateAmount(amount) || account.getCurrentBalance()<amount){
             return false;
         }
         account.withdrawAmount(amount);
