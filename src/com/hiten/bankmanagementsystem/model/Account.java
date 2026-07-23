@@ -29,10 +29,15 @@ public class Account {
         return accountId;
     }
 
+    public int getCurrentBalance(){
+        return currentBalance;
+    }
 
     public void depositAmount(int amount){
         currentBalance = currentBalance + amount;
     }
 
-
+    public void withdrawAmount(int amount){
+        currentBalance = currentBalance - amount;
+    }
 }

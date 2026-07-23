@@ -34,10 +34,6 @@ public class AccountRepository {
         return null;
     }
 
-    public boolean accountExist(int accountId){
-        return findAccountById(accountId) != null;
-    }
-
 
 
 }

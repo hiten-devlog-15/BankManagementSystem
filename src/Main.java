@@ -54,7 +54,7 @@ public class Main {
 
         boolean accountCreated = accountService.createAccount(customerID, accountType, initialDeposit);
         if(accountCreated){
-            System.out.println("Account created Successfully");
+            System.out.println("Account created Successfully" + idGenerator.getAccountId());
         }
         else {
             System.out.println("Unable to create Account. Try Again");
@@ -71,6 +71,14 @@ public class Main {
 
         accountService.deposit(accountId, amount);
 
+        //Withdraw code
+        System.out.println("Enter Account ID:");
+        accountId = scanner.nextInt();
+
+        System.out.println("Enter amount:");
+        amount = scanner.nextInt();
+
+        accountService.withdraw(accountId, amount);
 
 
     }

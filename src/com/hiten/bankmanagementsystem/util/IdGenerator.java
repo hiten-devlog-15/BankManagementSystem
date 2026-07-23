@@ -14,10 +14,14 @@ public class IdGenerator {
         return customerId;
     }
 
+    int accountId;
     public int generateAccountId(){
-        int accountId;
         Random random = new Random();
         accountId = 20000 + random.nextInt(30000);
+        return accountId;
+    }
+
+    public int getAccountId(){
         return accountId;
     }
 
