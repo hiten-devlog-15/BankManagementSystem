@@ -1,17 +1,19 @@
 package com.hiten.bankmanagementsystem.model;
 
+import com.hiten.bankmanagementsystem.enums.TransactionType;
+
 import java.time.LocalDate;
 
 public class Transaction {
 
     private int transactionId;
     private Account account;
-    private String type;
+    private TransactionType type;
     private int amount;
     private LocalDate date;
     private int balanceAfterTransaction;
 
-    public Transaction(int transactionId, Account account, String type, int amount, LocalDate date, int currentBalance){
+    public Transaction(int transactionId, Account account, TransactionType type, int amount, LocalDate date, int currentBalance){
         this.transactionId = transactionId;
         this.account = account;
         this.type = type;
