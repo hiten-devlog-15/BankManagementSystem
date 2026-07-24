@@ -9,7 +9,6 @@ import java.util.List;
 
 public class AccountRepository {
 
-    private Customer customer;
     List<Account> accountList = new ArrayList<>();
 
     public void saveAccount(Account account){

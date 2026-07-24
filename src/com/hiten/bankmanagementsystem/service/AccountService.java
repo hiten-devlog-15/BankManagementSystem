@@ -1,9 +1,12 @@
 package com.hiten.bankmanagementsystem.service;
 
+import com.hiten.bankmanagementsystem.enums.TransactionType;
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
+import com.hiten.bankmanagementsystem.model.Transaction;
 import com.hiten.bankmanagementsystem.repository.AccountRepository;
 import com.hiten.bankmanagementsystem.repository.CustomerRepository;
+import com.hiten.bankmanagementsystem.repository.TransactionRepository;
 import com.hiten.bankmanagementsystem.util.IdGenerator;
 import com.hiten.bankmanagementsystem.validator.Validator;
 
@@ -16,15 +19,19 @@ AccountService {
     private CustomerRepository customerRepository;
     private IdGenerator idGenerator;
     private Validator validator;
+    private TransactionRepository transactionRepository;
 
-    public AccountService(CustomerRepository customerRepository, AccountRepository accountRepository,  IdGenerator idGenerator, Validator validator){
+    public AccountService(CustomerRepository customerRepository, AccountRepository accountRepository,  TransactionRepository transactionRepository, IdGenerator idGenerator,
+                          Validator validator){
         this.customerRepository = customerRepository;
         this.accountRepository = accountRepository;
+        this.transactionRepository = transactionRepository;
         this.idGenerator = idGenerator;
         this.validator = validator;
     }
 
-    public boolean createAccount(int customerId, String accountType, int initialDeposit){
+    // Register Account
+    public boolean registerAccount(int customerId, String accountType, int initialDeposit){
         LocalDate createdAt = LocalDate.now();
         int currentBalance = initialDeposit; //Initially when the acc is created, later it can increase and decrease depending on operation
         String accountStatus = "Active";
@@ -52,22 +59,34 @@ AccountService {
     }
 
 
+    // Deposit Operation
     public boolean deposit(int accountId, int amount) {
         Account account = accountRepository.findAccountById(accountId);
         if (account == null || !validator.validateAmount(amount)) {
             return false;
         }
         account.depositAmount(amount);
+        createTransaction(account, TransactionType.DEPOSIT, amount);
         return true;
     }
 
+    // Withdraw Operation
     public boolean withdraw(int accountId, int amount){
         Account account = accountRepository.findAccountById(accountId);
         if(account == null || !validator.validateAmount(amount) || account.getCurrentBalance()<amount){
             return false;
         }
         account.withdrawAmount(amount);
+        createTransaction(account, TransactionType.WITHDRAW, amount);
         return true;
+    }
+
+    // Create Transaction
+    private void createTransaction(Account account, TransactionType type, int amount){
+        int transactionId = idGenerator.generateTransactionId();
+        LocalDate date = LocalDate.now();
+        Transaction transaction = new Transaction(transactionId, account, type, amount, date, account.getCurrentBalance());
+        transactionRepository.saveTransaction(transaction);
     }
 
 }

@@ -1,5 +1,8 @@
+import com.hiten.bankmanagementsystem.enums.TransactionType;
+import com.hiten.bankmanagementsystem.model.Transaction;
 import com.hiten.bankmanagementsystem.repository.AccountRepository;
 import com.hiten.bankmanagementsystem.repository.CustomerRepository;
+import com.hiten.bankmanagementsystem.repository.TransactionRepository;
 import com.hiten.bankmanagementsystem.service.AccountService;
 import com.hiten.bankmanagementsystem.service.CustomerService;
 import com.hiten.bankmanagementsystem.util.IdGenerator;
@@ -14,6 +17,7 @@ public class Main {
         CustomerRepository customerRepository = new CustomerRepository();
         IdGenerator idGenerator = new IdGenerator();
         Validator validator = new Validator();
+        TransactionRepository transactionRepository = new TransactionRepository();
 
         Scanner scanner = new Scanner(System.in);
 
@@ -50,16 +54,16 @@ public class Main {
         int initialDeposit = scanner.nextInt();
 
         AccountRepository accountRepository = new AccountRepository();
-        AccountService accountService =new AccountService(customerRepository, accountRepository, idGenerator, validator);
+        AccountService accountService =new AccountService(customerRepository, accountRepository, transactionRepository,
+                idGenerator, validator);
 
-        boolean accountCreated = accountService.createAccount(customerID, accountType, initialDeposit);
+        boolean accountCreated = accountService.registerAccount(customerID, accountType, initialDeposit);
         if(accountCreated){
             System.out.println("Account created Successfully" + idGenerator.getAccountId());
         }
         else {
             System.out.println("Unable to create Account. Try Again");
         }
-
 
 
         //Deposit code
@@ -80,6 +84,10 @@ public class Main {
         amount = scanner.nextInt();
 
         accountService.withdraw(accountId, amount);
+
+
+
+
 
 
     }

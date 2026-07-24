@@ -1,6 +1,5 @@
 package com.hiten.bankmanagementsystem.repository;
 
-
 import com.hiten.bankmanagementsystem.model.Customer;
 
 import java.util.ArrayList;

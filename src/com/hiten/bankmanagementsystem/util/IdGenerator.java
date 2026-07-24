@@ -14,6 +14,7 @@ public class IdGenerator {
         return customerId;
     }
 
+    // Generate AccountID
     int accountId;
     public int generateAccountId(){
         Random random = new Random();
@@ -25,4 +26,15 @@ public class IdGenerator {
         return accountId;
     }
 
+    // Generate TransactionID
+    int transactionId;
+    public int generateTransactionId(){
+        Random random = new Random();
+        transactionId = 30000 + random.nextInt(40000);
+        return transactionId;
+    }
+
+    public int getTransactionId(){
+        return transactionId;
+    }
 }
