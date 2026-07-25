@@ -67,7 +67,7 @@ AccountService {
     // Deposit Operation
     public boolean deposit(int accountId, int amount) {
         Account account = accountRepository.findAccountById(accountId);
-        if (account == null || !validator.validateAmount(amount)) {
+        if (account == null || !validator.isAccountActive(account) || !validator.validateAmount(amount)) {
             return false;
         }
         account.depositAmount(amount);
@@ -78,7 +78,7 @@ AccountService {
     // Withdraw Operation
     public boolean withdraw(int accountId, int amount){
         Account account = accountRepository.findAccountById(accountId);
-        if(account == null || !validator.validateAmount(amount) || account.getCurrentBalance()<amount){
+        if(account == null || !validator.isAccountActive(account) || !validator.validateAmount(amount) || account.getCurrentBalance()<amount){
             return false;
         }
         account.withdrawAmount(amount);
@@ -99,7 +99,7 @@ AccountService {
         Account senderAccount = accountRepository.findAccountById(senderAccountId);
         Account receiverAccount = accountRepository.findAccountById(receiverAccountId);
 
-        if(senderAccount == null || receiverAccount == null || !validator.validateAmount(amount) ||
+        if(senderAccount == null || !validator.isAccountActive(senderAccount) || receiverAccount == null || !validator.isAccountActive(receiverAccount) || !validator.validateAmount(amount) ||
                 senderAccount.getCurrentBalance() < amount || senderAccountId == receiverAccountId){
             return false;
         }
