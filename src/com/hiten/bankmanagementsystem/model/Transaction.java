@@ -21,4 +21,22 @@ public class Transaction {
         this.date = date;
         this.balanceAfterTransaction = currentBalance;
     }
+
+    public Account getAccount() {
+        return account;
+    }
+
+
+    @Override
+    public String toString(){
+        return "TransactionID: " + transactionId +
+                "\nAccountID: " + account.getAccountId() +
+                "\nTransaction Type: " + type +
+                "\nAmount: " + amount +
+                "\nDate: "+ date +
+                "\nCurrent Balance: " + balanceAfterTransaction +
+                "\n----------------------------------";
+    }
+
+
 }

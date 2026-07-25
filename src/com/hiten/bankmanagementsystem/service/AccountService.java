@@ -1,4 +1,6 @@
 package com.hiten.bankmanagementsystem.service;
+import java.time.LocalDate;
+import java.util.List;
 
 import com.hiten.bankmanagementsystem.enums.TransactionType;
 import com.hiten.bankmanagementsystem.model.Account;
@@ -10,7 +12,7 @@ import com.hiten.bankmanagementsystem.repository.TransactionRepository;
 import com.hiten.bankmanagementsystem.util.IdGenerator;
 import com.hiten.bankmanagementsystem.validator.Validator;
 
-import java.time.LocalDate;
+
 
 public class
 AccountService {
@@ -91,7 +93,7 @@ AccountService {
         transactionRepository.saveTransaction(transaction);
     }
 
-
+    // Transfer Money Operation
     public boolean transfer(int senderAccountId, int receiverAccountId, int amount){
         Account senderAccount = accountRepository.findAccountById(senderAccountId);
         Account receiverAccount = accountRepository.findAccountById(receiverAccountId);
@@ -106,4 +108,15 @@ AccountService {
         createTransaction(receiverAccount, TransactionType.TRANSFER_IN, amount);
         return true;
     }
+
+
+    public List<Transaction> viewTransactionHistory(int accountId){
+        Account account = accountRepository.findAccountById(accountId);
+
+        if(account == null){
+            return null;
+        }
+        return transactionRepository.findTransactionsByAccount(account);
+    }
+
 }

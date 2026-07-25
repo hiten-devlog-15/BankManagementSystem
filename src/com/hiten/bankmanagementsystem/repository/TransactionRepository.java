@@ -1,5 +1,6 @@
 package com.hiten.bankmanagementsystem.repository;
 
+import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Transaction;
 
 import java.util.ArrayList;
@@ -11,4 +12,16 @@ public class TransactionRepository {
     public void saveTransaction(Transaction transaction){
         transactionList.add(transaction);
     }
+
+    public List<Transaction> findTransactionsByAccount(Account account){
+        List<Transaction> transactionHistory = new ArrayList<>();
+        for(Transaction transaction : transactionList){
+            if(transaction.getAccount().equals(account)){
+                transactionHistory.add(transaction);
+            }
+        }
+        return transactionHistory;
+    }
+
+
 }

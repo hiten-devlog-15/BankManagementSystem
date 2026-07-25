@@ -1,3 +1,4 @@
+import com.hiten.bankmanagementsystem.model.Transaction;
 import com.hiten.bankmanagementsystem.repository.AccountRepository;
 import com.hiten.bankmanagementsystem.repository.CustomerRepository;
 import com.hiten.bankmanagementsystem.repository.TransactionRepository;
@@ -7,6 +8,7 @@ import com.hiten.bankmanagementsystem.util.IdGenerator;
 import com.hiten.bankmanagementsystem.validator.Validator;
 
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -142,7 +144,24 @@ public class Main {
                     }
                     break;
 
-                case 8:
+                case 6:
+                    // View Transaction History
+                    System.out.println("Enter AccountID");
+                    accountId = scanner.nextInt();
+                    List<Transaction> transactions = accountService.viewTransactionHistory(accountId);
+                    if(transactions != null){
+                        for(Transaction transaction : transactions){
+                            System.out.println(transaction);
+                        }
+                    }
+                    else{
+                        System.out.println("Invalid AccountID");
+                    }
+                    break;
+
+
+
+                case 7:
                     System.out.println("Thank you for using Bank Management System.");
                     keepRunning = false;
                     break;
