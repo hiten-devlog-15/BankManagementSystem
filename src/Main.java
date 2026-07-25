@@ -86,8 +86,16 @@ public class Main {
         accountService.withdraw(accountId, amount);
 
 
+        //Transfer code
+        System.out.println("Enter your AccountID");
+        int senderAccountId = scanner.nextInt();
 
+        System.out.println("Enter Receiver's AccountID");
+        int receiverAccountId = scanner.nextInt();
 
+        System.out.println("Enter amount to be transferred");
+        int transferredAmount = scanner.nextInt();
+        accountService.transfer(senderAccountId, receiverAccountId, transferredAmount);
 
 
     }

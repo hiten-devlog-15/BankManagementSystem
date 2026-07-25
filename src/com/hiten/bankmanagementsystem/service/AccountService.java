@@ -89,4 +89,19 @@ AccountService {
         transactionRepository.saveTransaction(transaction);
     }
 
+
+    public boolean transfer(int senderAccountId, int receiverAccountId, int amount){
+        Account senderAccount = accountRepository.findAccountById(senderAccountId);
+        Account receiverAccount = accountRepository.findAccountById(receiverAccountId);
+
+        if(senderAccount == null || receiverAccount == null || !validator.validateAmount(amount) ||
+                senderAccount.getCurrentBalance() < amount || senderAccountId == receiverAccountId){
+            return false;
+        }
+        senderAccount.withdrawAmount(amount);
+        receiverAccount.depositAmount(amount);
+        createTransaction(senderAccount, TransactionType.TRANSFER_OUT, amount);
+        createTransaction(receiverAccount, TransactionType.TRANSFER_IN, amount);
+        return true;
+    }
 }
