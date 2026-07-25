@@ -97,7 +97,8 @@ public class Main {
                     boolean deposited = accountService.deposit(accountId, amount);
 
                     if(deposited){
-                        System.out.println("Deposit Successful");
+                        System.out.println("Deposit Successful. Current Balance: " +
+                                accountRepository.findAccountById(accountId).getCurrentBalance());
                     }else{
                         System.out.println("Deposit Failed");
                     }
@@ -114,7 +115,8 @@ public class Main {
                     boolean withdrawal = accountService.withdraw(accountId, amount);
 
                     if(withdrawal){
-                        System.out.println("Withdraw Successful");
+                        System.out.println("Withdraw Successful. Current balance: " +
+                                accountRepository.findAccountById(accountId).getCurrentBalance());
                     }else{
                         System.out.println("Withdraw Failed");
                     }
@@ -130,7 +132,6 @@ public class Main {
 
                     System.out.println("Enter amount to be transferred");
                     int transferredAmount = scanner.nextInt();
-
 
                     boolean transferred = accountService.transfer(senderAccountId, receiverAccountId, transferredAmount);
 
