@@ -1,5 +1,7 @@
 package com.hiten.bankmanagementsystem.model;
 
+import com.hiten.bankmanagementsystem.enums.AccountStatus;
+
 import java.time.LocalDate;
 
 public class Account {
@@ -8,11 +10,14 @@ public class Account {
     private int accountId;
     private String accountType;
     private int currentBalance;
-    private String accountStatus;
+
+
+
+    private AccountStatus accountStatus;
     private LocalDate createdAt;
 
 
-    public Account(Customer customer, int accountId, String accountType, int currentBalance, String accountStatus, LocalDate createdAt){
+    public Account(Customer customer, int accountId, String accountType, int currentBalance, AccountStatus accountStatus, LocalDate createdAt){
         this.customer = customer;
         this.accountId = accountId;
         this.accountType = accountType;
@@ -39,6 +44,14 @@ public class Account {
 
     public void withdrawAmount(int amount){
         currentBalance = currentBalance - amount;
+    }
+
+    public AccountStatus getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void closeAccount() {
+        this.accountStatus = AccountStatus.CLOSED;
     }
 
     @Override

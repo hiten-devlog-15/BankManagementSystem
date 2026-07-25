@@ -48,7 +48,7 @@ public class Main {
             scanner.nextLine();
 
             switch (choice){
-                case 1:
+                case 1: // Create customer
                     System.out.println("Enter Name");
                     String name = scanner.nextLine();
 
@@ -70,7 +70,7 @@ public class Main {
                     }
                     break;
 
-                case 2:
+                case 2://Create Account
                     System.out.println("Enter Customer ID");
                     int customerID = scanner.nextInt();
 
@@ -160,7 +160,7 @@ public class Main {
                     }
                     break;
 
-                case 7:
+                case 7:// View Account Details
                     System.out.println("Enter AccountID");
                     accountId = scanner.nextInt();
                     Account account = accountService.viewAccountDetails(accountId);
@@ -171,7 +171,7 @@ public class Main {
                         System.out.println("Invalid Account ID");
                     }
 
-                case 8:
+                case 8://Check Balance
                     System.out.println("Enter AccountID");
                     accountId = scanner.nextInt();
                     int balance = accountService.checkBalance(accountId);
@@ -181,6 +181,19 @@ public class Main {
                     else{
                         System.out.println("Invalid AccountID");
                     }
+
+                case 9://Close Account
+                    System.out.println("Enter AccountId");
+                    accountId = scanner.nextInt();
+                    boolean accountClosed = accountService.closeAccount(accountId);
+                    if(accountClosed){
+                        System.out.println("Account Closed");
+                    }
+                    else{
+                        System.out.println("Account not closed due to: Invalid AccountId or Account is already closed or" +
+                                "Balance more than zero");
+                    }
+                    break;
 
                 case 20:
                     System.out.println("Thank you for using Bank Management System.");

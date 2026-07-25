@@ -2,6 +2,7 @@ package com.hiten.bankmanagementsystem.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.hiten.bankmanagementsystem.enums.AccountStatus;
 import com.hiten.bankmanagementsystem.enums.TransactionType;
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
@@ -36,7 +37,7 @@ AccountService {
     public boolean registerAccount(int customerId, String accountType, int initialDeposit){
         LocalDate createdAt = LocalDate.now();
         int currentBalance = initialDeposit; //Initially when the acc is created, later it can increase and decrease depending on operation
-        String accountStatus = "Active";
+        AccountStatus accountStatus = AccountStatus.ACTIVE;
         Customer customer = customerRepository.findCustomerById(customerId);
         if(!customerRepository.existsId(customerId) ||
                 accountRepository.findAccountByCustomer(customer)){
@@ -133,6 +134,15 @@ AccountService {
             return account.getCurrentBalance();
         }
         return -1;
+    }
+
+    public boolean closeAccount(int accountId){
+        Account account = accountRepository.findAccountById(accountId);
+        if(account == null || !validator.isAccountActive(account) || account.getCurrentBalance() > 0){
+           return false;
+        }
+        account.closeAccount();
+        return true;
     }
 
 }
