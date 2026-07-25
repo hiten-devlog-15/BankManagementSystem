@@ -40,4 +40,15 @@ public class Account {
     public void withdrawAmount(int amount){
         currentBalance = currentBalance - amount;
     }
+
+    @Override
+    public String toString(){
+        return "Customer ID: " + customer.getCustomerId() +
+                "AccountID: " + accountId +
+                "\nAccount Type: " + accountType +
+                "\nCurrent Balance: " + currentBalance +
+                "\nAccount Status: " + accountStatus +
+                "\nCreated At: "+ createdAt +
+                "\n----------------------------------";
+    }
 }

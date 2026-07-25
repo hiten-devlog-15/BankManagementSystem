@@ -1,3 +1,4 @@
+import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Transaction;
 import com.hiten.bankmanagementsystem.repository.AccountRepository;
 import com.hiten.bankmanagementsystem.repository.CustomerRepository;
@@ -159,9 +160,17 @@ public class Main {
                     }
                     break;
 
-
-
                 case 7:
+                    System.out.println("Enter AccountID");
+                    accountId = scanner.nextInt();
+                    Account account = accountService.viewAccountDetails(accountId);
+                    if(account != null){
+                        System.out.println(account);
+                    }
+                    else{
+                        System.out.println("Invalid Account ID");
+                    }
+                case 8:
                     System.out.println("Thank you for using Bank Management System.");
                     keepRunning = false;
                     break;

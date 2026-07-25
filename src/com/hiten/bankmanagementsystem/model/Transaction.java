@@ -29,7 +29,7 @@ public class Transaction {
 
     @Override
     public String toString(){
-        return "TransactionID: " + transactionId +
+        return  "TransactionID: " + transactionId +
                 "\nAccountID: " + account.getAccountId() +
                 "\nTransaction Type: " + type +
                 "\nAmount: " + amount +
