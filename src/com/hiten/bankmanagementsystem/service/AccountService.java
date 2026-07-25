@@ -38,8 +38,10 @@ AccountService {
         Customer customer = customerRepository.findCustomerById(customerId);
         if(!customerRepository.existsId(customerId) ||
                 accountRepository.findAccountByCustomer(customer)){
+
             return false;
         }
+
         else{
             if(accountType.equals("SAVINGS") && initialDeposit >= 2000){
                 Account account = new Account(customer, idGenerator.generateAccountId(),
