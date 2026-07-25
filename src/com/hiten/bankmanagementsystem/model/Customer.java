@@ -7,6 +7,9 @@ public class Customer {
     private String name;
     private String phoneNumber;
     private String email;
+
+
+
     private String password;
     private LocalDate createdAt;
 
@@ -29,5 +32,8 @@ public class Customer {
 
     public int getCustomerId(){
         return customerId;
+    }
+    public String getPassword() {
+        return password;
     }
 }

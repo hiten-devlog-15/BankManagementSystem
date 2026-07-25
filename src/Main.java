@@ -170,7 +170,19 @@ public class Main {
                     else{
                         System.out.println("Invalid Account ID");
                     }
+
                 case 8:
+                    System.out.println("Enter AccountID");
+                    accountId = scanner.nextInt();
+                    int balance = accountService.checkBalance(accountId);
+                    if(balance >= 0) {
+                        System.out.println("Current Balance: " + balance);
+                    }
+                    else{
+                        System.out.println("Invalid AccountID");
+                    }
+
+                case 20:
                     System.out.println("Thank you for using Bank Management System.");
                     keepRunning = false;
                     break;

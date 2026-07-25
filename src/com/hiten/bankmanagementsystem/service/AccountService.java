@@ -127,4 +127,12 @@ AccountService {
         return account;
     }
 
+    public int checkBalance(int accountId){
+        Account account = accountRepository.findAccountById(accountId);
+        if(account != null){
+            return account.getCurrentBalance();
+        }
+        return -1;
+    }
+
 }
