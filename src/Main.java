@@ -220,6 +220,25 @@ public class Main {
                         }
                     }
 
+
+                case 12:
+                    System.out.println("List of all Accounts");
+                    List<Account> accountList = accountService.viewAllAccounts();
+                    if(accountList.isEmpty()){
+                        System.out.println("No Accounts available");
+                    }
+                    else{
+                        for(Account accountInList : accountList){
+                            System.out.println(accountInList);
+                        }
+                    }
+
+                case 13:
+                    System.out.println("List of all Transactions");
+
+
+
+
                 case 20:
                     System.out.println("Thank you for using Bank Management System.");
                     keepRunning = false;

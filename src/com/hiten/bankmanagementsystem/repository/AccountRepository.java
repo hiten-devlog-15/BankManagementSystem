@@ -33,4 +33,8 @@ public class AccountRepository {
         return null;
     }
 
+    public List<Account> viewAccounts(){
+        return accountList;
+    }
+
 }

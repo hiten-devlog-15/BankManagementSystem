@@ -146,4 +146,8 @@ AccountService {
         return true;
     }
 
+
+    public List<Account> viewAllAccounts(){
+        return accountRepository.viewAccounts();
+    }
 }
