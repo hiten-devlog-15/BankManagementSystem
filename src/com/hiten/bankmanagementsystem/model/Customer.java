@@ -7,9 +7,6 @@ public class Customer {
     private String name;
     private String phoneNumber;
     private String email;
-
-
-
     private String password;
     private LocalDate createdAt;
 
@@ -35,5 +32,16 @@ public class Customer {
     }
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer ID: " + customerId +
+                "\nName: " + name +
+                "\n Email: " + email +
+                "\nPhone Number: " + phoneNumber +
+                "\nCreated At: " + createdAt +
+                "\n----------------------------------";
+
     }
 }

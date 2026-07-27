@@ -1,4 +1,5 @@
 import com.hiten.bankmanagementsystem.model.Account;
+import com.hiten.bankmanagementsystem.model.Customer;
 import com.hiten.bankmanagementsystem.model.Transaction;
 import com.hiten.bankmanagementsystem.repository.AccountRepository;
 import com.hiten.bankmanagementsystem.repository.CustomerRepository;
@@ -82,7 +83,7 @@ public class Main {
 
                     boolean accountCreated = accountService.registerAccount(customerID, accountType, initialDeposit);
                     if(accountCreated){
-                        System.out.println("Account created Successfully" + idGenerator.getAccountId());
+                        System.out.println("Account created Successfully " + idGenerator.getAccountId());
                     }
                     else {
                         System.out.println("Unable to create Account. Try Again");
@@ -192,6 +193,18 @@ public class Main {
                     else{
                         System.out.println("Account not closed due to: Invalid AccountId or Account is already closed or" +
                                 "Balance more than zero");
+                    }
+                    break;
+
+                case 10:
+                    System.out.println("Enter CustomerId");
+                    customerID = scanner.nextInt();
+                    Customer customer = customerService.searchCustomer(customerID);
+                    if(customer != null){
+                        System.out.println("Customer found: " + customer);
+                    }
+                    else{
+                        System.out.println("Invalid CustomerID");
                     }
                     break;
 

@@ -120,6 +120,7 @@ AccountService {
         return transactionRepository.findTransactionsByAccount(account);
     }
 
+    // View Account
     public Account viewAccountDetails(int accountId){
         Account account = accountRepository.findAccountById(accountId);
         if(account == null){

@@ -32,4 +32,11 @@ public class CustomerService {
         return true;
     }
 
+    public Customer searchCustomer(int customerId){
+        customer = customerRepository.findCustomerById(customerId);
+        if(customer != null){
+            return customer;
+        }
+        return null;
+    }
 }
