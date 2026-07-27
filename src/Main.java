@@ -208,6 +208,18 @@ public class Main {
                     }
                     break;
 
+                case 11:
+                    System.out.println("List of all customers");
+                    List<Customer> customerList = customerService.viewAllCustomer();
+                    if(customerList.isEmpty()){
+                        System.out.println("No Customers available");
+                    }
+                    else{
+                        for(Customer customerInList : customerList){
+                            System.out.println(customerInList);
+                        }
+                    }
+
                 case 20:
                     System.out.println("Thank you for using Bank Management System.");
                     keepRunning = false;

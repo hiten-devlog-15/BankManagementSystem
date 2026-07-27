@@ -53,4 +53,7 @@ public class CustomerRepository {
     }
 
 
+    public List<Customer> viewCustomer(){
+        return customerList;
+    }
 }

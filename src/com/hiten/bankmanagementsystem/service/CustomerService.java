@@ -6,6 +6,7 @@ import com.hiten.bankmanagementsystem.util.IdGenerator;
 import com.hiten.bankmanagementsystem.validator.Validator;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class CustomerService {
 
@@ -32,6 +33,7 @@ public class CustomerService {
         return true;
     }
 
+    //Search Customer
     public Customer searchCustomer(int customerId){
         customer = customerRepository.findCustomerById(customerId);
         if(customer != null){
@@ -39,4 +41,10 @@ public class CustomerService {
         }
         return null;
     }
+
+    public List<Customer> viewAllCustomer(){
+        return customerRepository.viewCustomer();
+    }
+
+
 }
