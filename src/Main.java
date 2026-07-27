@@ -6,6 +6,7 @@ import com.hiten.bankmanagementsystem.repository.CustomerRepository;
 import com.hiten.bankmanagementsystem.repository.TransactionRepository;
 import com.hiten.bankmanagementsystem.service.AccountService;
 import com.hiten.bankmanagementsystem.service.CustomerService;
+import com.hiten.bankmanagementsystem.service.TransactionService;
 import com.hiten.bankmanagementsystem.util.IdGenerator;
 import com.hiten.bankmanagementsystem.validator.Validator;
 
@@ -24,6 +25,7 @@ public class Main {
         CustomerService customerService = new CustomerService(customerRepository, idGenerator, validator);
         AccountService accountService =new AccountService(customerRepository, accountRepository, transactionRepository,
                 idGenerator, validator);
+        TransactionService transactionService = new TransactionService(transactionRepository);
 
         Scanner scanner = new Scanner(System.in);
 
@@ -235,7 +237,15 @@ public class Main {
 
                 case 13:
                     System.out.println("List of all Transactions");
-
+                    List<Transaction> listOfTransactions = transactionService.viewTransactions();
+                    if(listOfTransactions.isEmpty()){
+                        System.out.println("No Transactions available");
+                    }
+                    else {
+                        for(Transaction transaction : listOfTransactions){
+                            System.out.println(transaction);
+                        }
+                    }
 
 
 

@@ -23,5 +23,8 @@ public class TransactionRepository {
         return transactionHistory;
     }
 
+    public List<Transaction> viewTransactionList(){
+        return transactionList;
+    }
 
 }
