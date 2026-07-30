@@ -1,3 +1,4 @@
+import com.hiten.bankmanagementsystem.enums.AccountType;
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
 import com.hiten.bankmanagementsystem.model.Transaction;
@@ -78,7 +79,7 @@ public class Main {
                     int customerID = scanner.nextInt();
 
                     System.out.println("Enter Account Type: SAVINGS OR CURRENT");
-                    String accountType = scanner.next();
+                    AccountType accountType = AccountType.valueOf(scanner.next().toUpperCase());
 
                     System.out.println("Enter Initial Deposit");
                     int initialDeposit = scanner.nextInt();

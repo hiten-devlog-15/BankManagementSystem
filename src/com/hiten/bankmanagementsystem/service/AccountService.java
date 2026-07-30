@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.hiten.bankmanagementsystem.enums.AccountStatus;
+import com.hiten.bankmanagementsystem.enums.AccountType;
 import com.hiten.bankmanagementsystem.enums.TransactionType;
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
@@ -34,7 +35,7 @@ AccountService {
     }
 
     // Register Account
-    public boolean registerAccount(int customerId, String accountType, int initialDeposit){
+    public boolean registerAccount(int customerId, AccountType accountType, int initialDeposit){
         LocalDate createdAt = LocalDate.now();
         int currentBalance = initialDeposit; //Initially when the acc is created, later it can increase and decrease depending on operation
         AccountStatus accountStatus = AccountStatus.ACTIVE;
@@ -46,13 +47,13 @@ AccountService {
         }
 
         else{
-            if(accountType.equals("SAVINGS") && initialDeposit >= 2000){
+            if(accountType == AccountType.SAVINGS && initialDeposit >= 2000){
                 Account account = new Account(customer, idGenerator.generateAccountId(),
                         accountType, currentBalance, accountStatus, createdAt); //Bcoz initialDeposit itself is current Balance
                 // when acc is just created
                 accountRepository.saveAccount(account);
                 return true;
-            } else if (accountType.equals("CURRENT") && initialDeposit >= 5000) {
+            } else if (accountType == AccountType.CURRENT && initialDeposit >= 5000) {
                 Account account = new Account(customer, idGenerator.generateAccountId(),
                         accountType, currentBalance, accountStatus, createdAt); //Bcoz initialDeposit itself is current Balance
                 // when acc is just created

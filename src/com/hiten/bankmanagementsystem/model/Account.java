@@ -1,6 +1,7 @@
 package com.hiten.bankmanagementsystem.model;
 
 import com.hiten.bankmanagementsystem.enums.AccountStatus;
+import com.hiten.bankmanagementsystem.enums.AccountType;
 
 import java.time.LocalDate;
 
@@ -8,16 +9,13 @@ public class Account {
 
     private Customer customer;
     private int accountId;
-    private String accountType;
+    private AccountType accountType;
     private int currentBalance;
-
-
-
     private AccountStatus accountStatus;
     private LocalDate createdAt;
 
 
-    public Account(Customer customer, int accountId, String accountType, int currentBalance, AccountStatus accountStatus, LocalDate createdAt){
+    public Account(Customer customer, int accountId, AccountType accountType, int currentBalance, AccountStatus accountStatus, LocalDate createdAt){
         this.customer = customer;
         this.accountId = accountId;
         this.accountType = accountType;
