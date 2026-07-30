@@ -5,6 +5,7 @@ import java.util.List;
 import com.hiten.bankmanagementsystem.enums.AccountStatus;
 import com.hiten.bankmanagementsystem.enums.AccountType;
 import com.hiten.bankmanagementsystem.enums.TransactionType;
+import com.hiten.bankmanagementsystem.exception.InvalidPasswordException;
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
 import com.hiten.bankmanagementsystem.model.Transaction;
@@ -64,17 +65,20 @@ AccountService {
         }
     }
 
-    private boolean verifyPassword(Account account, String password) {
-        return account.getCustomer().getPassword().equals(password);
+    private void verifyPassword(Account account, String password) {
+        if(!account.getCustomer().getPassword().equals(password)){
+            throw new InvalidPasswordException();
+        }
+
     }
 
     // Deposit Operation
     public boolean deposit(int accountId, int amount, String password) {
         Account account = accountRepository.findAccountById(accountId);
-        if (account == null || !validator.isAccountActive(account) || !validator.validateAmount(amount)
-                || !verifyPassword(account, password)) {
+        if (account == null || !validator.isAccountActive(account) || !validator.validateAmount(amount)) {
             return false;
         }
+        verifyPassword(account, password);
         account.deposit(amount);
         createTransaction(account, TransactionType.DEPOSIT, amount);
         return true;
@@ -84,9 +88,10 @@ AccountService {
     public boolean withdraw(int accountId, int amount, String password){
         Account account = accountRepository.findAccountById(accountId);
         if(account == null || !validator.isAccountActive(account) || !validator.validateAmount(amount) ||
-                account.getCurrentBalance()<amount || !verifyPassword(account, password)){
+                account.getCurrentBalance()<amount){
             return false;
         }
+        verifyPassword(account, password);
         account.withdraw(amount);
         createTransaction(account, TransactionType.WITHDRAW, amount);
         return true;
@@ -106,9 +111,10 @@ AccountService {
         Account receiverAccount = accountRepository.findAccountById(receiverAccountId);
 
         if(senderAccount == null || !validator.isAccountActive(senderAccount) || receiverAccount == null || !validator.isAccountActive(receiverAccount) || !validator.validateAmount(amount) ||
-                senderAccount.getCurrentBalance() < amount || senderAccountId == receiverAccountId || !verifyPassword(senderAccount, password)){
+                senderAccount.getCurrentBalance() < amount || senderAccountId == receiverAccountId){
             return false;
         }
+        verifyPassword(senderAccount, password);
         senderAccount.withdraw(amount);
         receiverAccount.deposit(amount);
         createTransaction(senderAccount, TransactionType.TRANSFER_OUT, amount);
@@ -147,10 +153,10 @@ AccountService {
     // Close Account
     public boolean closeAccount(int accountId, String password){
         Account account = accountRepository.findAccountById(accountId);
-        if(account == null || !validator.isAccountActive(account) || account.getCurrentBalance() > 0
-                || !verifyPassword(account, password)){
+        if(account == null || !validator.isAccountActive(account) || account.getCurrentBalance() > 0){
            return false;
         }
+        verifyPassword(account, password);
         account.closeAccount();
         return true;
     }

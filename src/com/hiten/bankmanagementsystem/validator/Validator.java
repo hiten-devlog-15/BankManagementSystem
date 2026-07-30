@@ -2,11 +2,10 @@ package com.hiten.bankmanagementsystem.validator;
 
 import com.hiten.bankmanagementsystem.enums.AccountStatus;
 import com.hiten.bankmanagementsystem.model.Account;
-import com.hiten.bankmanagementsystem.repository.AccountRepository;
+
 
 public class Validator {
 
-    AccountRepository accountRepository = new AccountRepository();
 
     public boolean validateEmail(String email){
         return email.endsWith("@gmail.com");
