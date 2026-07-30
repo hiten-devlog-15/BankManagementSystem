@@ -40,20 +40,20 @@ public class CustomerRepository {
         return null;
     }
 
-    public boolean duplicateEmail(String email){
+    public boolean existsByEmail(String email){
         return findCustomerByEmail(email) != null;
     }
 
-    public boolean duplicatePhoneNumber(String phoneNumber){
+    public boolean existsByPhoneNumber(String phoneNumber){
         return findCustomerByPhoneNumber(phoneNumber) != null;
     }
 
-    public boolean existsId(int customerId){
+    public boolean existsById(int customerId){
         return findCustomerById(customerId) != null;
     }
 
 
-    public List<Customer> viewCustomer(){
+    public List<Customer> findAllCustomers(){
         return customerList;
     }
 

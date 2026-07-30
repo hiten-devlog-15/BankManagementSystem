@@ -25,7 +25,7 @@ public class CustomerService {
     public boolean registerCustomer(String name, String phoneNumber, String email, String password){ //For v1 --> boolean return
         LocalDate createdAt = LocalDate.now();
         if(!validator.validateEmail(email) || !validator.validatePhoneNumber(phoneNumber) ||
-                customerRepository.duplicateEmail(email) || customerRepository.duplicatePhoneNumber(phoneNumber)){
+                customerRepository.existsByEmail(email) || customerRepository.existsByPhoneNumber(phoneNumber)){
             return false;
         }
         customer = new Customer(idGenerator.generateCustomerId(), name, phoneNumber, email, password, createdAt);
@@ -43,7 +43,7 @@ public class CustomerService {
     }
 
     public List<Customer> viewAllCustomer(){
-        return customerRepository.viewCustomer();
+        return customerRepository.findAllCustomers();
     }
 
 

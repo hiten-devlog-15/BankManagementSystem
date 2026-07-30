@@ -65,9 +65,9 @@ public class Main {
                     System.out.println("Enter password");
                     String password = scanner.next();
 
-                    boolean registered = customerService.registerCustomer(name, phoneNumber, email, password);
+                    boolean customerRegistered = customerService.registerCustomer(name, phoneNumber, email, password);
 
-                    if (registered) {
+                    if (customerRegistered) {
                         System.out.println("Customer registered successfully. Your CustomerID is " + idGenerator.getCustomerId());
                     } else {
                         System.out.println("Invalid email.");
@@ -84,7 +84,7 @@ public class Main {
                     System.out.println("Enter Initial Deposit");
                     int initialDeposit = scanner.nextInt();
 
-                    boolean accountCreated = accountService.registerAccount(customerID, accountType, initialDeposit);
+                    boolean accountCreated = accountService.createAccount(customerID, accountType, initialDeposit);
                     if(accountCreated){
                         System.out.println("Account created Successfully " + idGenerator.getAccountId());
                     }
@@ -101,9 +101,9 @@ public class Main {
                     System.out.println("Enter Amount:");
                     int amount = scanner.nextInt();
 
-                    boolean deposited = accountService.deposit(accountId, amount);
+                    boolean depositSuccessful = accountService.deposit(accountId, amount);
 
-                    if(deposited){
+                    if(depositSuccessful){
                         System.out.println("Deposit Successful. Current Balance: " +
                                 accountRepository.findAccountById(accountId).getCurrentBalance());
                     }else{
@@ -119,9 +119,9 @@ public class Main {
                     System.out.println("Enter amount:");
                     amount = scanner.nextInt();
 
-                    boolean withdrawal = accountService.withdraw(accountId, amount);
+                    boolean withdrawSuccessful = accountService.withdraw(accountId, amount);
 
-                    if(withdrawal){
+                    if(withdrawSuccessful){
                         System.out.println("Withdraw Successful. Current balance: " +
                                 accountRepository.findAccountById(accountId).getCurrentBalance());
                     }else{
@@ -140,9 +140,9 @@ public class Main {
                     System.out.println("Enter amount to be transferred");
                     int transferredAmount = scanner.nextInt();
 
-                    boolean transferred = accountService.transfer(senderAccountId, receiverAccountId, transferredAmount);
+                    boolean transferSuccessful = accountService.transfer(senderAccountId, receiverAccountId, transferredAmount);
 
-                    if(transferred){
+                    if(transferSuccessful){
                         System.out.println("Transfer Successful");
                     }else{
                         System.out.println("Transfer Failed");
@@ -150,10 +150,10 @@ public class Main {
                     break;
 
                 case 6:
-                    // View Transaction History
+                    // View Transaction History or Passbook
                     System.out.println("Enter AccountID");
                     accountId = scanner.nextInt();
-                    List<Transaction> transactions = accountService.viewTransactionHistory(accountId);
+                    List<Transaction> transactions = accountService.getTransactionHistory(accountId);
                     if(transactions != null){
                         for(Transaction transaction : transactions){
                             System.out.println(transaction);
@@ -167,13 +167,14 @@ public class Main {
                 case 7:// View Account Details
                     System.out.println("Enter AccountID");
                     accountId = scanner.nextInt();
-                    Account account = accountService.viewAccountDetails(accountId);
+                    Account account = accountService.getAccountDetails(accountId);
                     if(account != null){
                         System.out.println(account);
                     }
                     else{
                         System.out.println("Invalid Account ID");
                     }
+                    break;
 
                 case 8://Check Balance
                     System.out.println("Enter AccountID");
@@ -185,6 +186,7 @@ public class Main {
                     else{
                         System.out.println("Invalid AccountID");
                     }
+                    break;
 
                 case 9://Close Account
                     System.out.println("Enter AccountId");
@@ -218,37 +220,38 @@ public class Main {
                         System.out.println("No Customers available");
                     }
                     else{
-                        for(Customer customerInList : customerList){
-                            System.out.println(customerInList);
+                        for(Customer customerItem : customerList){
+                            System.out.println(customerItem);
                         }
                     }
+                    break;
 
 
                 case 12:
                     System.out.println("List of all Accounts");
-                    List<Account> accountList = accountService.viewAllAccounts();
+                    List<Account> accountList = accountService.getAllAccounts();
                     if(accountList.isEmpty()){
                         System.out.println("No Accounts available");
                     }
                     else{
-                        for(Account accountInList : accountList){
-                            System.out.println(accountInList);
+                        for(Account accountItem : accountList){
+                            System.out.println(accountItem);
                         }
                     }
+                    break;
 
                 case 13:
                     System.out.println("List of all Transactions");
-                    List<Transaction> listOfTransactions = transactionService.viewTransactions();
-                    if(listOfTransactions.isEmpty()){
+                    List<Transaction> transactionList = transactionService.getAllTransactions();
+                    if(transactionList.isEmpty()){
                         System.out.println("No Transactions available");
                     }
                     else {
-                        for(Transaction transaction : listOfTransactions){
+                        for(Transaction transaction : transactionList){
                             System.out.println(transaction);
                         }
                     }
-
-
+                    break;
 
                 case 20:
                     System.out.println("Thank you for using Bank Management System.");

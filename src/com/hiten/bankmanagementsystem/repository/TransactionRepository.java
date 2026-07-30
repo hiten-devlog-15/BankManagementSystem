@@ -23,7 +23,7 @@ public class TransactionRepository {
         return transactionHistory;
     }
 
-    public List<Transaction> viewTransactionList(){
+    public List<Transaction> findAllTransactions(){
         return transactionList;
     }
 

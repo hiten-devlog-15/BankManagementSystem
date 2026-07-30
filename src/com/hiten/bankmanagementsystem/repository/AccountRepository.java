@@ -15,7 +15,7 @@ public class AccountRepository {
         accountList.add(account);
     }
 
-    public boolean findAccountByCustomer(Customer customer){
+    public boolean existsByCustomer(Customer customer){
         for(Account account : accountList){
             if(account.getCustomer().equals(customer)){
                 return true;
@@ -33,7 +33,7 @@ public class AccountRepository {
         return null;
     }
 
-    public List<Account> viewAccounts(){
+    public List<Account> findAllAccounts(){
         return accountList;
     }
 

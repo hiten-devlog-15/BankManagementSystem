@@ -36,11 +36,11 @@ public class Account {
         return currentBalance;
     }
 
-    public void depositAmount(int amount){
+    public void deposit(int amount){
         currentBalance = currentBalance + amount;
     }
 
-    public void withdrawAmount(int amount){
+    public void withdraw(int amount){
         currentBalance = currentBalance - amount;
     }
 

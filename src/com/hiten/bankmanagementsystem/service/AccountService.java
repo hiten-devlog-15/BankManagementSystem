@@ -35,13 +35,13 @@ AccountService {
     }
 
     // Register Account
-    public boolean registerAccount(int customerId, AccountType accountType, int initialDeposit){
+    public boolean createAccount(int customerId, AccountType accountType, int initialDeposit){
         LocalDate createdAt = LocalDate.now();
         int currentBalance = initialDeposit; //Initially when the acc is created, later it can increase and decrease depending on operation
         AccountStatus accountStatus = AccountStatus.ACTIVE;
         Customer customer = customerRepository.findCustomerById(customerId);
-        if(!customerRepository.existsId(customerId) ||
-                accountRepository.findAccountByCustomer(customer)){
+        if(!customerRepository.existsById(customerId) ||
+                accountRepository.existsByCustomer(customer)){
 
             return false;
         }
@@ -71,7 +71,7 @@ AccountService {
         if (account == null || !validator.isAccountActive(account) || !validator.validateAmount(amount)) {
             return false;
         }
-        account.depositAmount(amount);
+        account.deposit(amount);
         createTransaction(account, TransactionType.DEPOSIT, amount);
         return true;
     }
@@ -82,7 +82,7 @@ AccountService {
         if(account == null || !validator.isAccountActive(account) || !validator.validateAmount(amount) || account.getCurrentBalance()<amount){
             return false;
         }
-        account.withdrawAmount(amount);
+        account.withdraw(amount);
         createTransaction(account, TransactionType.WITHDRAW, amount);
         return true;
     }
@@ -104,15 +104,15 @@ AccountService {
                 senderAccount.getCurrentBalance() < amount || senderAccountId == receiverAccountId){
             return false;
         }
-        senderAccount.withdrawAmount(amount);
-        receiverAccount.depositAmount(amount);
+        senderAccount.withdraw(amount);
+        receiverAccount.deposit(amount);
         createTransaction(senderAccount, TransactionType.TRANSFER_OUT, amount);
         createTransaction(receiverAccount, TransactionType.TRANSFER_IN, amount);
         return true;
     }
 
 
-    public List<Transaction> viewTransactionHistory(int accountId){
+    public List<Transaction> getTransactionHistory(int accountId){
         Account account = accountRepository.findAccountById(accountId);
 
         if(account == null){
@@ -122,7 +122,7 @@ AccountService {
     }
 
     // View Account
-    public Account viewAccountDetails(int accountId){
+    public Account getAccountDetails(int accountId){
         Account account = accountRepository.findAccountById(accountId);
         if(account == null){
             return null;
@@ -148,7 +148,7 @@ AccountService {
     }
 
 
-    public List<Account> viewAllAccounts(){
-        return accountRepository.viewAccounts();
+    public List<Account> getAllAccounts(){
+        return accountRepository.findAllAccounts();
     }
 }

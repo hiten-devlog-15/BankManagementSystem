@@ -8,7 +8,7 @@ public class Transaction {
 
     private int transactionId;
     private Account account;
-    private TransactionType type;
+    private TransactionType transactionType;
     private int amount;
     private LocalDate date;
     private int balanceAfterTransaction;
@@ -16,7 +16,7 @@ public class Transaction {
     public Transaction(int transactionId, Account account, TransactionType type, int amount, LocalDate date, int currentBalance){
         this.transactionId = transactionId;
         this.account = account;
-        this.type = type;
+        this.transactionType = type;
         this.amount = amount;
         this.date = date;
         this.balanceAfterTransaction = currentBalance;
@@ -31,7 +31,7 @@ public class Transaction {
     public String toString(){
         return  "TransactionID: " + transactionId +
                 "\nAccountID: " + account.getAccountId() +
-                "\nTransaction Type: " + type +
+                "\nTransaction Type: " + transactionType +
                 "\nAmount: " + amount +
                 "\nDate: "+ date +
                 "\nCurrent Balance: " + balanceAfterTransaction +

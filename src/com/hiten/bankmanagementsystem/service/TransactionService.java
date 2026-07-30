@@ -15,8 +15,8 @@ public class TransactionService {
 
 
 
-    public List<Transaction> viewTransactions(){
-        return transactionRepository.viewTransactionList();
+    public List<Transaction> getAllTransactions(){
+        return transactionRepository.findAllTransactions();
     }
 
 }
