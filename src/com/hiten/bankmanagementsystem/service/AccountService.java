@@ -75,9 +75,10 @@ AccountService {
     // Deposit Operation
     public boolean deposit(int accountId, int amount, String password) {
         Account account = accountRepository.findAccountById(accountId);
-        if (account == null || !validator.isAccountActive(account) || !validator.validateAmount(amount)) {
+        if (account == null || !validator.isAccountActive(account)) {
             return false;
         }
+        validator.validateAmount(amount);
         verifyPassword(account, password);
         account.deposit(amount);
         createTransaction(account, TransactionType.DEPOSIT, amount);
@@ -87,10 +88,10 @@ AccountService {
     // Withdraw Operation
     public boolean withdraw(int accountId, int amount, String password){
         Account account = accountRepository.findAccountById(accountId);
-        if(account == null || !validator.isAccountActive(account) || !validator.validateAmount(amount) ||
-                account.getCurrentBalance()<amount){
+        if(account == null || !validator.isAccountActive(account) || account.getCurrentBalance()<amount){
             return false;
         }
+        validator.validateAmount(amount);
         verifyPassword(account, password);
         account.withdraw(amount);
         createTransaction(account, TransactionType.WITHDRAW, amount);
@@ -110,10 +111,12 @@ AccountService {
         Account senderAccount = accountRepository.findAccountById(senderAccountId);
         Account receiverAccount = accountRepository.findAccountById(receiverAccountId);
 
-        if(senderAccount == null || !validator.isAccountActive(senderAccount) || receiverAccount == null || !validator.isAccountActive(receiverAccount) || !validator.validateAmount(amount) ||
-                senderAccount.getCurrentBalance() < amount || senderAccountId == receiverAccountId){
+        if(senderAccount == null || !validator.isAccountActive(senderAccount) || receiverAccount == null ||
+                !validator.isAccountActive(receiverAccount) || senderAccount.getCurrentBalance() < amount ||
+                senderAccountId == receiverAccountId){
             return false;
         }
+        validator.validateAmount(amount);
         verifyPassword(senderAccount, password);
         senderAccount.withdraw(amount);
         receiverAccount.deposit(amount);

@@ -24,10 +24,11 @@ public class CustomerService {
     Customer customer;
     public boolean registerCustomer(String name, String phoneNumber, String email, String password){ //For v1 --> boolean return
         LocalDate createdAt = LocalDate.now();
-        if(!validator.validateEmail(email) || !validator.validatePhoneNumber(phoneNumber) ||
-                customerRepository.existsByEmail(email) || customerRepository.existsByPhoneNumber(phoneNumber)){
+        if(customerRepository.existsByEmail(email) || customerRepository.existsByPhoneNumber(phoneNumber)){
             return false;
         }
+        validator.validateEmail(email);
+        validator.validatePhoneNumber(phoneNumber);
         customer = new Customer(idGenerator.generateCustomerId(), name, phoneNumber, email, password, createdAt);
         customerRepository.saveCustomer(customer);
         return true;
