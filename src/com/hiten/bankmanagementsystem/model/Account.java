@@ -57,7 +57,7 @@ public class Account {
     @Override
     public String toString(){
         return "Customer ID: " + customer.getCustomerId() +
-                "AccountID: " + accountId +
+                "\nAccountID: " + accountId +
                 "\nAccount Type: " + accountType +
                 "\nCurrent Balance: " + currentBalance +
                 "\nAccount Status: " + accountStatus +
