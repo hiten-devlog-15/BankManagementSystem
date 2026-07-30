@@ -36,14 +36,20 @@ public class Main {
             System.out.println("==========================\n" +
                     " BANK MANAGEMENT SYSTEM\n" +
                     "==========================\n" +
-                    "1. Register Customer\n" +
-                    "2. Create Account\n" +
-                    "3. Deposit\n" +
-                    "4. Withdraw\n" +
-                    "5. Transfer\n" +
-                    "6. View Account\n" +
-                    "7. View Passbook\n" +
-                    "8. Exit\n" +
+                    "1.  Register Customer\n" +
+                    "2.  Create Account\n" +
+                    "3.  Deposit\n" +
+                    "4.  Withdraw\n" +
+                    "5.  Transfer\n" +
+                    "6.  View Account\n" +
+                    "7.  View Passbook\n" +
+                    "8.  Check Balance\n" +
+                    "9.  Close Account\n" +
+                    "10. Search Customer\n" +
+                    "11. View All Customers\n" +
+                    "12. View All Accounts\n" +
+                    "13. View All Transactions" +
+                    "14. Exit\n" +
                     "==========================\n" +
                     "Enter Choice:");
 
@@ -201,7 +207,7 @@ public class Main {
                     }
                     break;
 
-                case 10:
+                case 10: //Search Customer
                     System.out.println("Enter CustomerId");
                     customerID = scanner.nextInt();
                     Customer customer = customerService.searchCustomer(customerID);
@@ -213,7 +219,7 @@ public class Main {
                     }
                     break;
 
-                case 11:
+                case 11: //View All Customer
                     System.out.println("List of all customers");
                     List<Customer> customerList = customerService.viewAllCustomer();
                     if(customerList.isEmpty()){
@@ -227,7 +233,7 @@ public class Main {
                     break;
 
 
-                case 12:
+                case 12: // View all Accounts
                     System.out.println("List of all Accounts");
                     List<Account> accountList = accountService.getAllAccounts();
                     if(accountList.isEmpty()){
@@ -240,7 +246,7 @@ public class Main {
                     }
                     break;
 
-                case 13:
+                case 13: //View all Transactions
                     System.out.println("List of all Transactions");
                     List<Transaction> transactionList = transactionService.getAllTransactions();
                     if(transactionList.isEmpty()){
@@ -253,7 +259,7 @@ public class Main {
                     }
                     break;
 
-                case 20:
+                case 14: //Exit
                     System.out.println("Thank you for using Bank Management System.");
                     keepRunning = false;
                     break;
