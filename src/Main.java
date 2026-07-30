@@ -48,7 +48,7 @@ public class Main {
                     "10. Search Customer\n" +
                     "11. View All Customers\n" +
                     "12. View All Accounts\n" +
-                    "13. View All Transactions" +
+                    "13. View All Transactions\n" +
                     "14. Exit\n" +
                     "==========================\n" +
                     "Enter Choice:");
@@ -107,7 +107,10 @@ public class Main {
                     System.out.println("Enter Amount:");
                     int amount = scanner.nextInt();
 
-                    boolean depositSuccessful = accountService.deposit(accountId, amount);
+                    System.out.println("Enter Password:");
+                    password = scanner.next();
+
+                    boolean depositSuccessful = accountService.deposit(accountId, amount, password);
 
                     if(depositSuccessful){
                         System.out.println("Deposit Successful. Current Balance: " +
@@ -125,7 +128,10 @@ public class Main {
                     System.out.println("Enter amount:");
                     amount = scanner.nextInt();
 
-                    boolean withdrawSuccessful = accountService.withdraw(accountId, amount);
+                    System.out.println("Enter Password:");
+                    password = scanner.next();
+
+                    boolean withdrawSuccessful = accountService.withdraw(accountId, amount, password);
 
                     if(withdrawSuccessful){
                         System.out.println("Withdraw Successful. Current balance: " +
@@ -146,7 +152,10 @@ public class Main {
                     System.out.println("Enter amount to be transferred");
                     int transferredAmount = scanner.nextInt();
 
-                    boolean transferSuccessful = accountService.transfer(senderAccountId, receiverAccountId, transferredAmount);
+                    System.out.println("Enter Password:");
+                    password = scanner.next();
+
+                    boolean transferSuccessful = accountService.transfer(senderAccountId, receiverAccountId, transferredAmount, password);
 
                     if(transferSuccessful){
                         System.out.println("Transfer Successful");
@@ -197,7 +206,11 @@ public class Main {
                 case 9://Close Account
                     System.out.println("Enter AccountId");
                     accountId = scanner.nextInt();
-                    boolean accountClosed = accountService.closeAccount(accountId);
+
+                    System.out.println("Enter Password");
+                    password = scanner.next();
+
+                    boolean accountClosed = accountService.closeAccount(accountId, password);
                     if(accountClosed){
                         System.out.println("Account Closed");
                     }

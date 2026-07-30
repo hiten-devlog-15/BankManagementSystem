@@ -64,11 +64,15 @@ AccountService {
         }
     }
 
+    private boolean verifyPassword(Account account, String password) {
+        return account.getCustomer().getPassword().equals(password);
+    }
 
     // Deposit Operation
-    public boolean deposit(int accountId, int amount) {
+    public boolean deposit(int accountId, int amount, String password) {
         Account account = accountRepository.findAccountById(accountId);
-        if (account == null || !validator.isAccountActive(account) || !validator.validateAmount(amount)) {
+        if (account == null || !validator.isAccountActive(account) || !validator.validateAmount(amount)
+                || !verifyPassword(account, password)) {
             return false;
         }
         account.deposit(amount);
@@ -77,9 +81,10 @@ AccountService {
     }
 
     // Withdraw Operation
-    public boolean withdraw(int accountId, int amount){
+    public boolean withdraw(int accountId, int amount, String password){
         Account account = accountRepository.findAccountById(accountId);
-        if(account == null || !validator.isAccountActive(account) || !validator.validateAmount(amount) || account.getCurrentBalance()<amount){
+        if(account == null || !validator.isAccountActive(account) || !validator.validateAmount(amount) ||
+                account.getCurrentBalance()<amount || !verifyPassword(account, password)){
             return false;
         }
         account.withdraw(amount);
@@ -96,12 +101,12 @@ AccountService {
     }
 
     // Transfer Money Operation
-    public boolean transfer(int senderAccountId, int receiverAccountId, int amount){
+    public boolean transfer(int senderAccountId, int receiverAccountId, int amount, String password){
         Account senderAccount = accountRepository.findAccountById(senderAccountId);
         Account receiverAccount = accountRepository.findAccountById(receiverAccountId);
 
         if(senderAccount == null || !validator.isAccountActive(senderAccount) || receiverAccount == null || !validator.isAccountActive(receiverAccount) || !validator.validateAmount(amount) ||
-                senderAccount.getCurrentBalance() < amount || senderAccountId == receiverAccountId){
+                senderAccount.getCurrentBalance() < amount || senderAccountId == receiverAccountId || !verifyPassword(senderAccount, password)){
             return false;
         }
         senderAccount.withdraw(amount);
@@ -130,6 +135,7 @@ AccountService {
         return account;
     }
 
+    // Check Balance
     public int checkBalance(int accountId){
         Account account = accountRepository.findAccountById(accountId);
         if(account != null){
@@ -138,9 +144,11 @@ AccountService {
         return -1;
     }
 
-    public boolean closeAccount(int accountId){
+    // Close Account
+    public boolean closeAccount(int accountId, String password){
         Account account = accountRepository.findAccountById(accountId);
-        if(account == null || !validator.isAccountActive(account) || account.getCurrentBalance() > 0){
+        if(account == null || !validator.isAccountActive(account) || account.getCurrentBalance() > 0
+                || !verifyPassword(account, password)){
            return false;
         }
         account.closeAccount();
