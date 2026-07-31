@@ -22,25 +22,21 @@ public class CustomerService {
     }
 
 
-    Customer customer;
+
     public void registerCustomer(String name, String phoneNumber, String email, String password){ //For v1 --> boolean return
         LocalDate createdAt = LocalDate.now();
         validator.validateEmail(email);
         customerRepository.existsByEmail(email);
         validator.validatePhoneNumber(phoneNumber);
         customerRepository.existsByPhoneNumber(phoneNumber);
-        customer = new Customer(idGenerator.generateCustomerId(), name, phoneNumber, email, password, createdAt);
+        Customer customer = new Customer(idGenerator.generateCustomerId(), name, phoneNumber, email, password, createdAt);
         customerRepository.saveCustomer(customer);
 
     }
 
     //Search Customer
     public Customer searchCustomer(int customerId){
-        customer = customerRepository.findCustomerById(customerId);
-        if(customer != null){
-            return customer;
-        }
-        throw new CustomerNotFoundException();
+        return customerRepository.findCustomerById(customerId);
     }
 
     public List<Customer> viewAllCustomer(){

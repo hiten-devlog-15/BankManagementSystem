@@ -55,10 +55,6 @@ public class CustomerRepository {
         }
     }
 
-    public boolean existsById(int customerId){
-        return findCustomerById(customerId) != null;
-    }
-
 
     public List<Customer> findAllCustomers(){
         return customerList;

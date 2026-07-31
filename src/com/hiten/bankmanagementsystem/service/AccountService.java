@@ -5,6 +5,7 @@ import java.util.List;
 import com.hiten.bankmanagementsystem.enums.AccountStatus;
 import com.hiten.bankmanagementsystem.enums.AccountType;
 import com.hiten.bankmanagementsystem.enums.TransactionType;
+import com.hiten.bankmanagementsystem.exception.AccountAlreadyExistsException;
 import com.hiten.bankmanagementsystem.exception.InsufficientBalanceException;
 import com.hiten.bankmanagementsystem.exception.InvalidPasswordException;
 import com.hiten.bankmanagementsystem.model.Account;
@@ -21,11 +22,11 @@ import com.hiten.bankmanagementsystem.validator.Validator;
 public class
 AccountService {
 
-    private AccountRepository accountRepository;
-    private CustomerRepository customerRepository;
-    private IdGenerator idGenerator;
-    private Validator validator;
-    private TransactionRepository transactionRepository;
+    private final AccountRepository accountRepository;
+    private final CustomerRepository customerRepository;
+    private final IdGenerator idGenerator;
+    private final Validator validator;
+    private final TransactionRepository transactionRepository;
 
     public AccountService(CustomerRepository customerRepository, AccountRepository accountRepository,  TransactionRepository transactionRepository, IdGenerator idGenerator,
                           Validator validator){
@@ -36,35 +37,19 @@ AccountService {
         this.validator = validator;
     }
 
-    // Register Account
-    public boolean createAccount(int customerId, AccountType accountType, int initialDeposit){
-        LocalDate createdAt = LocalDate.now();
-        int currentBalance = initialDeposit; //Initially when the acc is created, later it can increase and decrease depending on operation
-        AccountStatus accountStatus = AccountStatus.ACTIVE;
+    // Create Account
+    public void createAccount(int customerId, AccountType accountType, int initialDeposit) {
         Customer customer = customerRepository.findCustomerById(customerId);
-        if(!customerRepository.existsById(customerId) ||
-                accountRepository.existsByCustomer(customer)){
-            return false;
+        if (accountRepository.existsByCustomer(customer)) {
+            throw new AccountAlreadyExistsException();
         }
-
-        else{
-            if(accountType == AccountType.SAVINGS && initialDeposit >= 2000){
-                Account account = new Account(customer, idGenerator.generateAccountId(),
-                        accountType, currentBalance, accountStatus, createdAt); //Bcoz initialDeposit itself is current Balance
-                // when acc is just created
-                accountRepository.saveAccount(account);
-                return true;
-            } else if (accountType == AccountType.CURRENT && initialDeposit >= 5000) {
-                Account account = new Account(customer, idGenerator.generateAccountId(),
-                        accountType, currentBalance, accountStatus, createdAt); //Bcoz initialDeposit itself is current Balance
-                // when acc is just created
-                accountRepository.saveAccount(account);
-                return true;
-            }
-            return false;
-        }
+        validator.validateInitialDeposit(accountType, initialDeposit);
+        Account account = new Account(customer, idGenerator.generateAccountId(), accountType, initialDeposit,
+                AccountStatus.ACTIVE, LocalDate.now());
+        accountRepository.saveAccount(account);
     }
 
+    //Verify Password
     private void verifyPassword(Account account, String password) {
         if(!account.getCustomer().getPassword().equals(password)){
             throw new InvalidPasswordException();
@@ -105,31 +90,26 @@ AccountService {
     }
 
     // Transfer Money Operation
-    public boolean transfer(int senderAccountId, int receiverAccountId, int amount, String password){
+    public void transfer(int senderAccountId, int receiverAccountId, int amount, String password){
         Account senderAccount = accountRepository.findAccountById(senderAccountId);
         Account receiverAccount = accountRepository.findAccountById(receiverAccountId);
-
-        if(senderAccount.getCurrentBalance() < amount || senderAccountId == receiverAccountId){
-            return false;
-        }
         validator.isAccountActive(senderAccount);
         validator.isAccountActive(receiverAccount);
         validator.validateAmount(amount);
+        validator.checkSameAccount(senderAccount, receiverAccount);
+        if(senderAccount.getCurrentBalance() < amount){
+            throw new InsufficientBalanceException();
+        }
         verifyPassword(senderAccount, password);
         senderAccount.withdraw(amount);
         receiverAccount.deposit(amount);
         createTransaction(senderAccount, TransactionType.TRANSFER_OUT, amount);
         createTransaction(receiverAccount, TransactionType.TRANSFER_IN, amount);
-        return true;
     }
 
 
     public List<Transaction> getTransactionHistory(int accountId){
         Account account = accountRepository.findAccountById(accountId);
-
-        if(account == null){
-            return null;
-        }
         return transactionRepository.findTransactionsByAccount(account);
     }
 
@@ -145,15 +125,13 @@ AccountService {
     }
 
     // Close Account
-    public boolean closeAccount(int accountId, String password){
+    public void closeAccount(int accountId, String password){
         Account account = accountRepository.findAccountById(accountId);
-        if(account.getCurrentBalance() > 0){
-           return false;
-        }
         validator.isAccountActive(account);
         verifyPassword(account, password);
+        validator.checkBalanceIsZero(account);
         account.closeAccount();
-        return true;
+
     }
 
 

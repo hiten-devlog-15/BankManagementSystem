@@ -1,4 +1,5 @@
 import com.hiten.bankmanagementsystem.enums.AccountType;
+import com.hiten.bankmanagementsystem.exception.BankException;
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
 import com.hiten.bankmanagementsystem.model.Transaction;
@@ -58,41 +59,36 @@ public class Main {
             scanner.nextLine();
 
             switch (choice){
-                case 1: // Create customer
+                case 1:// Create customer
                     System.out.println("Enter Name");
                     String name = scanner.nextLine();
-
                     System.out.println("Enter Phone Number");
                     String phoneNumber = scanner.next();
-
                     System.out.println("Enter Email");
                     String email = scanner.next();
-
                     System.out.println("Enter password");
                     String password = scanner.next();
-
-                    customerService.registerCustomer(name, phoneNumber, email, password);
-
-                    System.out.println("Customer registered successfully. Your CustomerID is " + idGenerator.getCustomerId());
-
+                    try{
+                        customerService.registerCustomer(name, phoneNumber, email, password);
+                        System.out.println("Customer registered successfully. Your CustomerID is " +
+                                idGenerator.getCustomerId());
+                    } catch (BankException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case 2://Create Account
                     System.out.println("Enter Customer ID");
                     int customerID = scanner.nextInt();
-
                     System.out.println("Enter Account Type: SAVINGS OR CURRENT");
                     AccountType accountType = AccountType.valueOf(scanner.next().toUpperCase());
-
                     System.out.println("Enter Initial Deposit");
                     int initialDeposit = scanner.nextInt();
-
-                    boolean accountCreated = accountService.createAccount(customerID, accountType, initialDeposit);
-                    if(accountCreated){
+                    try{
+                        accountService.createAccount(customerID, accountType, initialDeposit);
                         System.out.println("Account created Successfully " + idGenerator.getAccountId());
-                    }
-                    else {
-                        System.out.println("Unable to create Account. Try Again");
+                    }catch (BankException e){
+                        System.out.println(e.getMessage());
                     }
                     break;
 
@@ -100,58 +96,51 @@ public class Main {
                     //Deposit code
                     System.out.println("Enter Account ID:");
                     int accountId = scanner.nextInt();
-
                     System.out.println("Enter Amount:");
                     int amount = scanner.nextInt();
-
                     System.out.println("Enter Password:");
                     password = scanner.next();
-
-                    accountService.deposit(accountId, amount, password);
-
-                    System.out.println("Deposit Successful. Current Balance: " +
-                            accountRepository.findAccountById(accountId).getCurrentBalance());
-
+                    try{
+                        accountService.deposit(accountId, amount, password);
+                        System.out.println("Deposit Successful. Current Balance: " +
+                                accountRepository.findAccountById(accountId).getCurrentBalance());
+                    }catch (BankException e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case 4:
                     //Withdraw code
                     System.out.println("Enter Account ID:");
                     accountId = scanner.nextInt();
-
                     System.out.println("Enter amount:");
                     amount = scanner.nextInt();
-
                     System.out.println("Enter Password:");
                     password = scanner.next();
-
-                    accountService.withdraw(accountId, amount, password);
-
-                    System.out.println("Withdraw Successful. Current balance: " +
+                    try{
+                        accountService.withdraw(accountId, amount, password);
+                        System.out.println("Withdraw Successful. Current balance: " +
                                 accountRepository.findAccountById(accountId).getCurrentBalance());
-
+                    }catch (BankException e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case 5:
                     //Transfer code
                     System.out.println("Enter your AccountID");
                     int senderAccountId = scanner.nextInt();
-
                     System.out.println("Enter Receiver's AccountID");
                     int receiverAccountId = scanner.nextInt();
-
                     System.out.println("Enter amount to be transferred");
                     int transferredAmount = scanner.nextInt();
-
                     System.out.println("Enter Password:");
                     password = scanner.next();
-
-                    boolean transferSuccessful = accountService.transfer(senderAccountId, receiverAccountId, transferredAmount, password);
-
-                    if(transferSuccessful){
+                    try{
+                        accountService.transfer(senderAccountId, receiverAccountId, transferredAmount, password);
                         System.out.println("Transfer Successful");
-                    }else{
-                        System.out.println("Transfer Failed");
+                    }catch (BankException e){
+                        System.out.println(e.getMessage());
                     }
                     break;
 
@@ -159,67 +148,64 @@ public class Main {
                     // View Transaction History or Passbook
                     System.out.println("Enter AccountID");
                     accountId = scanner.nextInt();
-                    List<Transaction> transactions = accountService.getTransactionHistory(accountId);
-                    if(transactions != null){
-                        for(Transaction transaction : transactions){
-                            System.out.println(transaction);
+                    try{
+                        List<Transaction> transactions = accountService.getTransactionHistory(accountId);
+                        if(transactions != null){
+                            for(Transaction transaction : transactions){
+                                System.out.println(transaction);
+                            }
                         }
-                    }
-                    else{
-                        System.out.println("Invalid AccountID");
+                    }catch (BankException e){
+                        System.out.println(e.getMessage());
                     }
                     break;
 
                 case 7:// View Account Details
                     System.out.println("Enter AccountID");
                     accountId = scanner.nextInt();
-                    Account account = accountService.getAccountDetails(accountId);
-                    if(account != null){
+                    try{
+                        Account account = accountService.getAccountDetails(accountId);
                         System.out.println(account);
+
+                    }catch (BankException e){
+                        System.out.println(e.getMessage());
                     }
-                    else{
-                        System.out.println("Invalid Account ID");
-                    }
+
                     break;
 
                 case 8://Check Balance
                     System.out.println("Enter AccountID");
                     accountId = scanner.nextInt();
-                    int balance = accountService.checkBalance(accountId);
-                    if(balance >= 0) {
+                    try{
+                        int balance = accountService.checkBalance(accountId);
                         System.out.println("Current Balance: " + balance);
-                    }
-                    else{
-                        System.out.println("Invalid AccountID");
+
+                    }catch (BankException e){
+                        System.out.println(e.getMessage());
                     }
                     break;
 
                 case 9://Close Account
                     System.out.println("Enter AccountId");
                     accountId = scanner.nextInt();
-
                     System.out.println("Enter Password");
                     password = scanner.next();
-
-                    boolean accountClosed = accountService.closeAccount(accountId, password);
-                    if(accountClosed){
+                    try{
+                        accountService.closeAccount(accountId, password);
                         System.out.println("Account Closed");
-                    }
-                    else{
-                        System.out.println("Account not closed due to: Invalid AccountId or Account is already closed or" +
-                                "Balance more than zero");
+                    }catch (BankException e){
+                        System.out.println(e.getMessage());
                     }
                     break;
 
                 case 10: //Search Customer
                     System.out.println("Enter CustomerId");
                     customerID = scanner.nextInt();
-                    Customer customer = customerService.searchCustomer(customerID);
-                    if(customer != null){
+                    try{
+                        Customer customer = customerService.searchCustomer(customerID);
                         System.out.println("Customer found: " + customer);
-                    }
-                    else{
-                        System.out.println("Invalid CustomerID");
+                    }catch (BankException e){
+                        System.out.println(e.getMessage());
                     }
                     break;
 
