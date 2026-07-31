@@ -1,5 +1,6 @@
 package com.hiten.bankmanagementsystem.repository;
 
+import com.hiten.bankmanagementsystem.exception.AccountNotFoundException;
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
 
@@ -30,7 +31,7 @@ public class AccountRepository {
                 return account;
             }
         }
-        return null;
+        throw new AccountNotFoundException();
     }
 
     public List<Account> findAllAccounts(){

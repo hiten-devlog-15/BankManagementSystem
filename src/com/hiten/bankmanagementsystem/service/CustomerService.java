@@ -1,5 +1,6 @@
 package com.hiten.bankmanagementsystem.service;
 
+import com.hiten.bankmanagementsystem.exception.CustomerNotFoundException;
 import com.hiten.bankmanagementsystem.model.Customer;
 import com.hiten.bankmanagementsystem.repository.CustomerRepository;
 import com.hiten.bankmanagementsystem.util.IdGenerator;
@@ -10,9 +11,9 @@ import java.util.List;
 
 public class CustomerService {
 
-    private CustomerRepository customerRepository;
-    private IdGenerator idGenerator;
-    private Validator validator;
+    private final CustomerRepository customerRepository;
+    private final IdGenerator idGenerator;
+    private final Validator validator;
 
     public CustomerService(CustomerRepository customerRepository, IdGenerator idGenerator, Validator validator){
         this.customerRepository=customerRepository;
@@ -22,16 +23,15 @@ public class CustomerService {
 
 
     Customer customer;
-    public boolean registerCustomer(String name, String phoneNumber, String email, String password){ //For v1 --> boolean return
+    public void registerCustomer(String name, String phoneNumber, String email, String password){ //For v1 --> boolean return
         LocalDate createdAt = LocalDate.now();
-        if(customerRepository.existsByEmail(email) || customerRepository.existsByPhoneNumber(phoneNumber)){
-            return false;
-        }
         validator.validateEmail(email);
+        customerRepository.existsByEmail(email);
         validator.validatePhoneNumber(phoneNumber);
+        customerRepository.existsByPhoneNumber(phoneNumber);
         customer = new Customer(idGenerator.generateCustomerId(), name, phoneNumber, email, password, createdAt);
         customerRepository.saveCustomer(customer);
-        return true;
+
     }
 
     //Search Customer
@@ -40,7 +40,7 @@ public class CustomerService {
         if(customer != null){
             return customer;
         }
-        return null;
+        throw new CustomerNotFoundException();
     }
 
     public List<Customer> viewAllCustomer(){

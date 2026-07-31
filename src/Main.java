@@ -71,13 +71,10 @@ public class Main {
                     System.out.println("Enter password");
                     String password = scanner.next();
 
-                    boolean customerRegistered = customerService.registerCustomer(name, phoneNumber, email, password);
+                    customerService.registerCustomer(name, phoneNumber, email, password);
 
-                    if (customerRegistered) {
-                        System.out.println("Customer registered successfully. Your CustomerID is " + idGenerator.getCustomerId());
-                    } else {
-                        System.out.println("Invalid email.");
-                    }
+                    System.out.println("Customer registered successfully. Your CustomerID is " + idGenerator.getCustomerId());
+
                     break;
 
                 case 2://Create Account
@@ -110,14 +107,11 @@ public class Main {
                     System.out.println("Enter Password:");
                     password = scanner.next();
 
-                    boolean depositSuccessful = accountService.deposit(accountId, amount, password);
+                    accountService.deposit(accountId, amount, password);
 
-                    if(depositSuccessful){
-                        System.out.println("Deposit Successful. Current Balance: " +
-                                accountRepository.findAccountById(accountId).getCurrentBalance());
-                    }else{
-                        System.out.println("Deposit Failed");
-                    }
+                    System.out.println("Deposit Successful. Current Balance: " +
+                            accountRepository.findAccountById(accountId).getCurrentBalance());
+
                     break;
 
                 case 4:
@@ -131,14 +125,11 @@ public class Main {
                     System.out.println("Enter Password:");
                     password = scanner.next();
 
-                    boolean withdrawSuccessful = accountService.withdraw(accountId, amount, password);
+                    accountService.withdraw(accountId, amount, password);
 
-                    if(withdrawSuccessful){
-                        System.out.println("Withdraw Successful. Current balance: " +
+                    System.out.println("Withdraw Successful. Current balance: " +
                                 accountRepository.findAccountById(accountId).getCurrentBalance());
-                    }else{
-                        System.out.println("Withdraw Failed");
-                    }
+
                     break;
 
                 case 5:

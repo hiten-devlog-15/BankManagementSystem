@@ -1,6 +1,7 @@
 package com.hiten.bankmanagementsystem.validator;
 
 import com.hiten.bankmanagementsystem.enums.AccountStatus;
+import com.hiten.bankmanagementsystem.exception.AccountClosedException;
 import com.hiten.bankmanagementsystem.exception.InvalidAmountException;
 import com.hiten.bankmanagementsystem.exception.InvalidEmailException;
 import com.hiten.bankmanagementsystem.exception.InvalidPhoneNumberException;
@@ -28,11 +29,10 @@ public class Validator {
         }
     }
 
-    public boolean isAccountActive  (Account account){
-        if(account.getAccountStatus() != AccountStatus.CLOSED){
-            return true;
+    public void isAccountActive  (Account account){
+        if(account.getAccountStatus() == AccountStatus.CLOSED){
+            throw new AccountClosedException();
         }
-        return false;
     }
 
 }

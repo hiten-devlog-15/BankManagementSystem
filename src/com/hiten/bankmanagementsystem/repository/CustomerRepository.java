@@ -1,5 +1,8 @@
 package com.hiten.bankmanagementsystem.repository;
 
+import com.hiten.bankmanagementsystem.exception.CustomerNotFoundException;
+import com.hiten.bankmanagementsystem.exception.DuplicateEmailException;
+import com.hiten.bankmanagementsystem.exception.DuplicatePhoneNumberException;
 import com.hiten.bankmanagementsystem.model.Customer;
 
 import java.util.ArrayList;
@@ -37,15 +40,19 @@ public class CustomerRepository {
                 return customer;
             }
         }
-        return null;
+        throw new CustomerNotFoundException();
     }
 
-    public boolean existsByEmail(String email){
-        return findCustomerByEmail(email) != null;
+    public void existsByEmail(String email){
+        if(findCustomerByEmail(email) != null){
+            throw new DuplicateEmailException();
+        }
     }
 
-    public boolean existsByPhoneNumber(String phoneNumber){
-        return findCustomerByPhoneNumber(phoneNumber) != null;
+    public void existsByPhoneNumber(String phoneNumber){
+        if(findCustomerByPhoneNumber(phoneNumber) != null){
+            throw new DuplicatePhoneNumberException();
+        }
     }
 
     public boolean existsById(int customerId){

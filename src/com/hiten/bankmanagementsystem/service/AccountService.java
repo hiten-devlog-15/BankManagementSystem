@@ -5,6 +5,7 @@ import java.util.List;
 import com.hiten.bankmanagementsystem.enums.AccountStatus;
 import com.hiten.bankmanagementsystem.enums.AccountType;
 import com.hiten.bankmanagementsystem.enums.TransactionType;
+import com.hiten.bankmanagementsystem.exception.InsufficientBalanceException;
 import com.hiten.bankmanagementsystem.exception.InvalidPasswordException;
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
@@ -43,7 +44,6 @@ AccountService {
         Customer customer = customerRepository.findCustomerById(customerId);
         if(!customerRepository.existsById(customerId) ||
                 accountRepository.existsByCustomer(customer)){
-
             return false;
         }
 
@@ -73,29 +73,27 @@ AccountService {
     }
 
     // Deposit Operation
-    public boolean deposit(int accountId, int amount, String password) {
+    public void deposit(int accountId, int amount, String password) {
         Account account = accountRepository.findAccountById(accountId);
-        if (account == null || !validator.isAccountActive(account)) {
-            return false;
-        }
+        validator.isAccountActive(account);
         validator.validateAmount(amount);
         verifyPassword(account, password);
         account.deposit(amount);
         createTransaction(account, TransactionType.DEPOSIT, amount);
-        return true;
     }
 
     // Withdraw Operation
-    public boolean withdraw(int accountId, int amount, String password){
+    public void withdraw(int accountId, int amount, String password){
         Account account = accountRepository.findAccountById(accountId);
-        if(account == null || !validator.isAccountActive(account) || account.getCurrentBalance()<amount){
-            return false;
+        if(account.getCurrentBalance()<amount){
+            throw new InsufficientBalanceException();
         }
+        validator.isAccountActive(account);
         validator.validateAmount(amount);
         verifyPassword(account, password);
         account.withdraw(amount);
         createTransaction(account, TransactionType.WITHDRAW, amount);
-        return true;
+
     }
 
     // Create Transaction
@@ -111,11 +109,11 @@ AccountService {
         Account senderAccount = accountRepository.findAccountById(senderAccountId);
         Account receiverAccount = accountRepository.findAccountById(receiverAccountId);
 
-        if(senderAccount == null || !validator.isAccountActive(senderAccount) || receiverAccount == null ||
-                !validator.isAccountActive(receiverAccount) || senderAccount.getCurrentBalance() < amount ||
-                senderAccountId == receiverAccountId){
+        if(senderAccount.getCurrentBalance() < amount || senderAccountId == receiverAccountId){
             return false;
         }
+        validator.isAccountActive(senderAccount);
+        validator.isAccountActive(receiverAccount);
         validator.validateAmount(amount);
         verifyPassword(senderAccount, password);
         senderAccount.withdraw(amount);
@@ -137,28 +135,22 @@ AccountService {
 
     // View Account
     public Account getAccountDetails(int accountId){
-        Account account = accountRepository.findAccountById(accountId);
-        if(account == null){
-            return null;
-        }
-        return account;
+        return accountRepository.findAccountById(accountId);
     }
 
     // Check Balance
     public int checkBalance(int accountId){
         Account account = accountRepository.findAccountById(accountId);
-        if(account != null){
-            return account.getCurrentBalance();
-        }
-        return -1;
+        return account.getCurrentBalance();
     }
 
     // Close Account
     public boolean closeAccount(int accountId, String password){
         Account account = accountRepository.findAccountById(accountId);
-        if(account == null || !validator.isAccountActive(account) || account.getCurrentBalance() > 0){
+        if(account.getCurrentBalance() > 0){
            return false;
         }
+        validator.isAccountActive(account);
         verifyPassword(account, password);
         account.closeAccount();
         return true;
