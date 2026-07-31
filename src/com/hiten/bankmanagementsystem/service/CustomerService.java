@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class CustomerService {
-
     private final CustomerRepository customerRepository;
     private final IdGenerator idGenerator;
     private final Validator validator;
@@ -21,17 +20,15 @@ public class CustomerService {
         this.validator=validator;
     }
 
-
-
+    //Register Account
     public void registerCustomer(String name, String phoneNumber, String email, String password){ //For v1 --> boolean return
         LocalDate createdAt = LocalDate.now();
         validator.validateEmail(email);
-        customerRepository.existsByEmail(email);
         validator.validatePhoneNumber(phoneNumber);
+        customerRepository.existsByEmail(email);
         customerRepository.existsByPhoneNumber(phoneNumber);
         Customer customer = new Customer(idGenerator.generateCustomerId(), name, phoneNumber, email, password, createdAt);
         customerRepository.saveCustomer(customer);
-
     }
 
     //Search Customer
@@ -39,9 +36,8 @@ public class CustomerService {
         return customerRepository.findCustomerById(customerId);
     }
 
+    //View All Customers(Admin)
     public List<Customer> viewAllCustomer(){
         return customerRepository.findAllCustomers();
     }
-
-
 }

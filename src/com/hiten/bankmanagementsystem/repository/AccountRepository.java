@@ -1,8 +1,6 @@
 package com.hiten.bankmanagementsystem.repository;
 
 import com.hiten.bankmanagementsystem.exception.AccountNotFoundException;
-import com.hiten.bankmanagementsystem.exception.BalanceNotZeroException;
-import com.hiten.bankmanagementsystem.exception.SameAccountTransferException;
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
 
@@ -11,7 +9,6 @@ import java.util.List;
 
 
 public class AccountRepository {
-
     List<Account> accountList = new ArrayList<>();
 
     public void saveAccount(Account account){
@@ -35,10 +32,6 @@ public class AccountRepository {
         }
         throw new AccountNotFoundException();
     }
-
-
-
-
 
     public List<Account> findAllAccounts(){
         return accountList;

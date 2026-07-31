@@ -1,15 +1,13 @@
 package com.hiten.bankmanagementsystem.repository;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.hiten.bankmanagementsystem.exception.CustomerNotFoundException;
 import com.hiten.bankmanagementsystem.exception.DuplicateEmailException;
 import com.hiten.bankmanagementsystem.exception.DuplicatePhoneNumberException;
 import com.hiten.bankmanagementsystem.model.Customer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CustomerRepository {
-
     List<Customer> customerList = new ArrayList<>();
 
     public void saveCustomer(Customer customer){
@@ -54,7 +52,6 @@ public class CustomerRepository {
             throw new DuplicatePhoneNumberException();
         }
     }
-
 
     public List<Customer> findAllCustomers(){
         return customerList;

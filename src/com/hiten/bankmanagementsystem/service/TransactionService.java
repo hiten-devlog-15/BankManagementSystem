@@ -1,20 +1,17 @@
 package com.hiten.bankmanagementsystem.service;
+import java.util.List;
 
 import com.hiten.bankmanagementsystem.model.Transaction;
 import com.hiten.bankmanagementsystem.repository.TransactionRepository;
 
-import java.util.List;
-
 public class TransactionService {
-
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
     public TransactionService(TransactionRepository transactionRepository){
         this.transactionRepository = transactionRepository;
     }
 
-
-
+    // View All Transactions
     public List<Transaction> getAllTransactions(){
         return transactionRepository.findAllTransactions();
     }

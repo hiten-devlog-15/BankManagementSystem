@@ -1,17 +1,16 @@
 package com.hiten.bankmanagementsystem.model;
+import java.time.LocalDate;
 
 import com.hiten.bankmanagementsystem.enums.TransactionType;
 
-import java.time.LocalDate;
-
 public class Transaction {
 
-    private int transactionId;
-    private Account account;
-    private TransactionType transactionType;
-    private int amount;
-    private LocalDate date;
-    private int balanceAfterTransaction;
+    private final int transactionId;
+    private final Account account;
+    private final TransactionType transactionType;
+    private final int amount;
+    private final LocalDate date;
+    private final int balanceAfterTransaction;
 
     public Transaction(int transactionId, Account account, TransactionType type, int amount, LocalDate date, int currentBalance){
         this.transactionId = transactionId;
@@ -25,7 +24,6 @@ public class Transaction {
     public Account getAccount() {
         return account;
     }
-
 
     @Override
     public String toString(){

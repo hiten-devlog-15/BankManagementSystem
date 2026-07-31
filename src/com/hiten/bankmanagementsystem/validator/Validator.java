@@ -7,8 +7,6 @@ import com.hiten.bankmanagementsystem.model.Account;
 
 
 public class Validator {
-
-
     public void validateEmail(String email){
         if(!email.endsWith("@gmail.com")){
             throw new InvalidEmailException();
@@ -34,11 +32,9 @@ public class Validator {
     }
 
     public void validateInitialDeposit(AccountType accountType, int initialDeposit) {
-
         if (accountType == AccountType.SAVINGS && initialDeposit < 2000) {
             throw new InvalidAmountException();
         }
-
         if (accountType == AccountType.CURRENT && initialDeposit < 5000) {
             throw new InvalidAmountException();
         }
@@ -55,5 +51,4 @@ public class Validator {
             throw new BalanceNotZeroException();
         }
     }
-
 }

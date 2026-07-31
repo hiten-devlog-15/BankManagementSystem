@@ -1,10 +1,9 @@
 package com.hiten.bankmanagementsystem.repository;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Transaction;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TransactionRepository {
     List<Transaction> transactionList = new ArrayList<>();

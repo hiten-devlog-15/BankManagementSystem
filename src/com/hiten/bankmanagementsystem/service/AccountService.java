@@ -17,11 +17,7 @@ import com.hiten.bankmanagementsystem.repository.TransactionRepository;
 import com.hiten.bankmanagementsystem.util.IdGenerator;
 import com.hiten.bankmanagementsystem.validator.Validator;
 
-
-
-public class
-AccountService {
-
+public class AccountService {
     private final AccountRepository accountRepository;
     private final CustomerRepository customerRepository;
     private final IdGenerator idGenerator;
@@ -54,10 +50,9 @@ AccountService {
         if(!account.getCustomer().getPassword().equals(password)){
             throw new InvalidPasswordException();
         }
-
     }
 
-    // Deposit Operation
+    //Deposit Operation
     public void deposit(int accountId, int amount, String password) {
         Account account = accountRepository.findAccountById(accountId);
         validator.isAccountActive(account);
@@ -67,21 +62,20 @@ AccountService {
         createTransaction(account, TransactionType.DEPOSIT, amount);
     }
 
-    // Withdraw Operation
+    //Withdraw Operation
     public void withdraw(int accountId, int amount, String password){
         Account account = accountRepository.findAccountById(accountId);
-        if(account.getCurrentBalance()<amount){
-            throw new InsufficientBalanceException();
-        }
         validator.isAccountActive(account);
         validator.validateAmount(amount);
         verifyPassword(account, password);
+        if(account.getCurrentBalance()<amount){
+            throw new InsufficientBalanceException();
+        }
         account.withdraw(amount);
         createTransaction(account, TransactionType.WITHDRAW, amount);
-
     }
 
-    // Create Transaction
+    //Create Transaction
     private void createTransaction(Account account, TransactionType type, int amount){
         int transactionId = idGenerator.generateTransactionId();
         LocalDate date = LocalDate.now();
@@ -89,52 +83,51 @@ AccountService {
         transactionRepository.saveTransaction(transaction);
     }
 
-    // Transfer Money Operation
+    //Transfer Money Operation
     public void transfer(int senderAccountId, int receiverAccountId, int amount, String password){
         Account senderAccount = accountRepository.findAccountById(senderAccountId);
         Account receiverAccount = accountRepository.findAccountById(receiverAccountId);
         validator.isAccountActive(senderAccount);
         validator.isAccountActive(receiverAccount);
-        validator.validateAmount(amount);
         validator.checkSameAccount(senderAccount, receiverAccount);
+        validator.validateAmount(amount);
+        verifyPassword(senderAccount, password);
         if(senderAccount.getCurrentBalance() < amount){
             throw new InsufficientBalanceException();
         }
-        verifyPassword(senderAccount, password);
         senderAccount.withdraw(amount);
         receiverAccount.deposit(amount);
         createTransaction(senderAccount, TransactionType.TRANSFER_OUT, amount);
         createTransaction(receiverAccount, TransactionType.TRANSFER_IN, amount);
     }
 
-
+    //View Transaction History
     public List<Transaction> getTransactionHistory(int accountId){
         Account account = accountRepository.findAccountById(accountId);
         return transactionRepository.findTransactionsByAccount(account);
     }
 
-    // View Account
+    //View Account
     public Account getAccountDetails(int accountId){
         return accountRepository.findAccountById(accountId);
     }
 
-    // Check Balance
+    //Check Balance
     public int checkBalance(int accountId){
         Account account = accountRepository.findAccountById(accountId);
         return account.getCurrentBalance();
     }
 
-    // Close Account
+    //Close Account
     public void closeAccount(int accountId, String password){
         Account account = accountRepository.findAccountById(accountId);
         validator.isAccountActive(account);
         verifyPassword(account, password);
         validator.checkBalanceIsZero(account);
         account.closeAccount();
-
     }
 
-
+    //View All Accounts(Admin)
     public List<Account> getAllAccounts(){
         return accountRepository.findAllAccounts();
     }

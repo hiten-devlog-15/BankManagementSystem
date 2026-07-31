@@ -3,12 +3,12 @@ package com.hiten.bankmanagementsystem.model;
 import java.time.LocalDate;
 
 public class Customer {
-    private int customerId;
-    private String name;
-    private String phoneNumber;
-    private String email;
-    private String password;
-    private LocalDate createdAt;
+    private final int customerId;
+    private final String name;
+    private final String phoneNumber;
+    private final String email;
+    private final String password;
+    private final LocalDate createdAt;
 
     public Customer(int customerId, String name, String phoneNumber, String email, String password, LocalDate createdAt){
         this.customerId = customerId;

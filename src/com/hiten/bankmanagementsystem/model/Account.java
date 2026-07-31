@@ -6,13 +6,12 @@ import com.hiten.bankmanagementsystem.enums.AccountType;
 import java.time.LocalDate;
 
 public class Account {
-
-    private Customer customer;
-    private int accountId;
-    private AccountType accountType;
+    private final Customer customer;
+    private final int accountId;
+    private final AccountType accountType;
     private int currentBalance;
     private AccountStatus accountStatus;
-    private LocalDate createdAt;
+    private final LocalDate createdAt;
 
 
     public Account(Customer customer, int accountId, AccountType accountType, int currentBalance, AccountStatus accountStatus, LocalDate createdAt){
