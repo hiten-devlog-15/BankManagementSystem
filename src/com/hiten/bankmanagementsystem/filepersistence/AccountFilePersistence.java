@@ -48,7 +48,6 @@ public class AccountFilePersistence {
             String line;
             while((line = bufferedReader.readLine()) != null){
                 String[] accountData = line.split(",");
-
                 int accountId = Integer.parseInt(accountData[0]);
                 int customerId = Integer.parseInt(accountData[1]);
                 Customer customer = customerRepository.findCustomerById(customerId);

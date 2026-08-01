@@ -10,6 +10,27 @@ public class Transaction {
     private final TransactionType transactionType;
     private final int amount;
     private final LocalDate date;
+
+    public int getTransactionId() {
+        return transactionId;
+    }
+
+    public TransactionType getTransactionType() {
+        return transactionType;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public int getBalanceAfterTransaction() {
+        return balanceAfterTransaction;
+    }
+
     private final int balanceAfterTransaction;
 
     public Transaction(int transactionId, Account account, TransactionType type, int amount, LocalDate date, int currentBalance){
