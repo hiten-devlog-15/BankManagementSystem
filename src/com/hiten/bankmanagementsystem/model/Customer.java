@@ -34,6 +34,14 @@ public class Customer {
         return password;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
     @Override
     public String toString() {
         return "Customer ID: " + customerId +

@@ -42,8 +42,8 @@ public class Main {
                     "3.  Deposit\n" +
                     "4.  Withdraw\n" +
                     "5.  Transfer\n" +
-                    "6.  View Account\n" +
-                    "7.  View Passbook\n" +
+                    "6.  View Passbook\n" +
+                    "7.  View Account\n" +
                     "8.  Check Balance\n" +
                     "9.  Close Account\n" +
                     "10. Search Customer\n" +
