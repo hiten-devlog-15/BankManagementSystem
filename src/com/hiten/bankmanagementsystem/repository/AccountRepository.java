@@ -1,6 +1,7 @@
 package com.hiten.bankmanagementsystem.repository;
 
 import com.hiten.bankmanagementsystem.exception.AccountNotFoundException;
+import com.hiten.bankmanagementsystem.filepersistence.AccountFilePersistence;
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
 
@@ -9,10 +10,19 @@ import java.util.List;
 
 
 public class AccountRepository {
-    List<Account> accountList = new ArrayList<>();
+
+    private final AccountFilePersistence accountFilePersistence;
+
+    List<Account> accountList;
+
+    public AccountRepository(AccountFilePersistence accountFilePersistence) {
+        this.accountFilePersistence = accountFilePersistence;
+        accountList = accountFilePersistence.loadAccounts();
+    }
 
     public void saveAccount(Account account){
         accountList.add(account);
+        accountFilePersistence.saveAccount(account);
     }
 
     public boolean existsByCustomer(Customer customer){

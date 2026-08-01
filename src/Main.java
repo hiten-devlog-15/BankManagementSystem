@@ -1,5 +1,8 @@
 import com.hiten.bankmanagementsystem.enums.AccountType;
 import com.hiten.bankmanagementsystem.exception.BankException;
+import com.hiten.bankmanagementsystem.filepersistence.AccountFilePersistence;
+import com.hiten.bankmanagementsystem.filepersistence.CustomerFilePersistence;
+import com.hiten.bankmanagementsystem.filepersistence.TransactionFilePersistence;
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
 import com.hiten.bankmanagementsystem.model.Transaction;
@@ -18,10 +21,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
-        CustomerRepository customerRepository = new CustomerRepository();
-        AccountRepository accountRepository = new AccountRepository();
-        TransactionRepository transactionRepository = new TransactionRepository();
+        CustomerFilePersistence customerFilePersistence = new CustomerFilePersistence();
+        CustomerRepository customerRepository = new CustomerRepository(customerFilePersistence);
+        AccountFilePersistence accountFilePersistence = new AccountFilePersistence(customerRepository);
+        AccountRepository accountRepository = new AccountRepository(accountFilePersistence);
+        TransactionFilePersistence transactionFilePersistence = new TransactionFilePersistence(accountRepository);
+        TransactionRepository transactionRepository = new TransactionRepository(transactionFilePersistence);
         IdGenerator idGenerator = new IdGenerator();
         Validator validator = new Validator();
         CustomerService customerService = new CustomerService(customerRepository, idGenerator, validator);

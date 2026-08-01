@@ -5,13 +5,23 @@ import java.util.List;
 import com.hiten.bankmanagementsystem.exception.CustomerNotFoundException;
 import com.hiten.bankmanagementsystem.exception.DuplicateEmailException;
 import com.hiten.bankmanagementsystem.exception.DuplicatePhoneNumberException;
+import com.hiten.bankmanagementsystem.filepersistence.CustomerFilePersistence;
 import com.hiten.bankmanagementsystem.model.Customer;
 
 public class CustomerRepository {
-    List<Customer> customerList = new ArrayList<>();
+
+    private final CustomerFilePersistence customerFilePersistence;
+
+    List<Customer> customerList;
+
+    public CustomerRepository(CustomerFilePersistence customerFilePersistence) {
+        this.customerFilePersistence = customerFilePersistence;
+        customerList = customerFilePersistence.loadCustomers();
+    }
 
     public void saveCustomer(Customer customer){
         customerList.add(customer);
+        customerFilePersistence.saveCustomer(customer);
     }
 
     public Customer findCustomerByEmail(String email){
