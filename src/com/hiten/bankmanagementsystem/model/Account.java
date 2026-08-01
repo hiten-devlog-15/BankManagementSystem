@@ -6,8 +6,8 @@ import com.hiten.bankmanagementsystem.enums.AccountType;
 import java.time.LocalDate;
 
 public class Account {
-    private final Customer customer;
     private final int accountId;
+    private final Customer customer;
     private final AccountType accountType;
     private int currentBalance;
     private AccountStatus accountStatus;
@@ -34,7 +34,17 @@ public class Account {
     public int getCurrentBalance(){
         return currentBalance;
     }
+    public AccountType getAccountType() {
+        return accountType;
+    }
 
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
+    public AccountStatus getAccountStatus() {
+        return accountStatus;
+    }
     public void deposit(int amount){
         currentBalance = currentBalance + amount;
     }
@@ -43,9 +53,7 @@ public class Account {
         currentBalance = currentBalance - amount;
     }
 
-    public AccountStatus getAccountStatus() {
-        return accountStatus;
-    }
+
 
     public void closeAccount() {
         this.accountStatus = AccountStatus.CLOSED;
@@ -61,4 +69,6 @@ public class Account {
                 "\nCreated At: "+ createdAt +
                 "\n----------------------------------";
     }
+
+
 }
