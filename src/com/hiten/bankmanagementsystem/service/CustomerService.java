@@ -6,6 +6,7 @@ import com.hiten.bankmanagementsystem.repository.CustomerRepository;
 import com.hiten.bankmanagementsystem.util.IdGenerator;
 import com.hiten.bankmanagementsystem.validator.Validator;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class CustomerService {
     }
 
     //Register Account
-    public void registerCustomer(String name, String phoneNumber, String email, String password){ //For v1 --> boolean return
+    public void registerCustomer(String name, String phoneNumber, String email, String password) throws SQLException { //For v1 --> boolean return
         LocalDate createdAt = LocalDate.now();
         validator.validateEmail(email);
         validator.validatePhoneNumber(phoneNumber);

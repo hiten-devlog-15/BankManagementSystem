@@ -1,4 +1,6 @@
 package com.hiten.bankmanagementsystem.repository;
+import java.net.ConnectException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import com.hiten.bankmanagementsystem.exception.DuplicateEmailException;
 import com.hiten.bankmanagementsystem.exception.DuplicatePhoneNumberException;
 import com.hiten.bankmanagementsystem.filepersistence.CustomerFilePersistence;
 import com.hiten.bankmanagementsystem.model.Customer;
+import com.hiten.bankmanagementsystem.util.DatabaseConnection;
 
 public class CustomerRepository {
 
@@ -19,9 +22,27 @@ public class CustomerRepository {
         customerList = customerFilePersistence.loadCustomers();
     }
 
-    public void saveCustomer(Customer customer){
-        customerList.add(customer);
-        customerFilePersistence.saveCustomer(customer);
+    public void saveCustomer(Customer customer) throws SQLException {
+        String query = "INSERT INTO customers(customer_name, phone_number, email, pass_word, created_at) VALUES(?, ?, ?, ?, ?)";
+        try(Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)
+        ){
+            preparedStatement.setString(1, customer.getName());
+            preparedStatement.setString(2, customer.getPhoneNumber());
+            preparedStatement.setString(3, customer.getEmail());
+            preparedStatement.setString(4, customer.getPassword());
+            preparedStatement.setDate(5, Date.valueOf(customer.getCreatedAt()));
+            preparedStatement.executeUpdate();
+
+            try(ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                if(resultSet.next()){
+                    int generatedId = resultSet.getInt("customer_id");
+                    customer.setCustomerId(generatedId);
+                }
+            }
+        }
+//        customerList.add(customer);
+//        customerFilePersistence.saveCustomer(customer);
     }
 
     public Customer findCustomerByEmail(String email){

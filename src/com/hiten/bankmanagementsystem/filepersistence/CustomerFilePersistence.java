@@ -51,8 +51,7 @@ public class CustomerFilePersistence {
                 String email = customerData[3];
                 String password = customerData[4];
                 LocalDate createdAt = LocalDate.parse(customerData[5]);
-                Customer customer = new Customer(customerId, name, phoneNumber, email, password, createdAt
-                );
+                Customer customer = new Customer(customerId, name, phoneNumber, email, password, createdAt);
                 customerList.add(customer);
             }
         } catch (IOException e) {

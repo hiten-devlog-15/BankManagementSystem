@@ -3,7 +3,7 @@ package com.hiten.bankmanagementsystem.model;
 import java.time.LocalDate;
 
 public class Customer {
-    private final int customerId;
+    private int customerId;
     private final String name;
     private final String phoneNumber;
     private final String email;
@@ -42,6 +42,9 @@ public class Customer {
         return createdAt;
     }
 
+    public void setCustomerId(int customerId){
+        this.customerId = customerId;
+    }
     @Override
     public String toString() {
         return "Customer ID: " + customerId +
