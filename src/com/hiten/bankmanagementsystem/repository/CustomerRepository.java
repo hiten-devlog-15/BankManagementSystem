@@ -1,6 +1,7 @@
 package com.hiten.bankmanagementsystem.repository;
 import java.net.ConnectException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,12 +46,29 @@ public class CustomerRepository {
 //        customerFilePersistence.saveCustomer(customer);
     }
 
-    public Customer findCustomerByEmail(String email){
-        for(Customer customer : customerList){
-            if(customer.getEmail().equals(email)){ //Particular customer email equal to email im passing
-                return customer;
+    public Customer findCustomerByEmail(String email) throws SQLException{
+        String query = "SELECT customer_id, customer_name, phone_number, email, pass_word, created_at FROM customers WHERE email = ?";
+        try(Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
+        ){
+            preparedStatement.setString(1, email);
+            try(ResultSet resultSet = preparedStatement.executeQuery()) {
+                if(resultSet.next()){
+                    return new Customer(resultSet.getInt("customer_id"),
+                    resultSet.getString("customer_name"),
+                    resultSet.getString("phone_number"),
+                    resultSet.getString("email"),
+                    resultSet.getString("pass_word"),
+                    resultSet.getDate("created_at").toLocalDate());
+                }
             }
         }
+
+//        for(Customer customer : customerList){
+//            if(customer.getEmail().equals(email)){ //Particular customer email equal to email im passing
+//                return customer;
+//            }
+//        }
         return null;
     }
 
