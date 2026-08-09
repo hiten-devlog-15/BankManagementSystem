@@ -29,7 +29,7 @@ public class Main {
         AccountFilePersistence accountFilePersistence = new AccountFilePersistence(customerRepository);
         AccountRepository accountRepository = new AccountRepository(customerRepository);
         TransactionFilePersistence transactionFilePersistence = new TransactionFilePersistence(accountRepository);
-        TransactionRepository transactionRepository = new TransactionRepository(transactionFilePersistence);
+        TransactionRepository transactionRepository = new TransactionRepository(accountRepository);
         IdGenerator idGenerator = new IdGenerator();
         Validator validator = new Validator();
         CustomerService customerService = new CustomerService(customerRepository, idGenerator, validator);
