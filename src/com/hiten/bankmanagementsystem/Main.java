@@ -19,13 +19,13 @@ import com.hiten.bankmanagementsystem.util.IdGenerator;
 import com.hiten.bankmanagementsystem.validator.Validator;
 
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        CustomerFilePersistence customerFilePersistence = new CustomerFilePersistence();
-        CustomerRepository customerRepository = new CustomerRepository(customerFilePersistence);
+    public static void main(String[] args) throws SQLException {
+        CustomerRepository customerRepository = new CustomerRepository();
         AccountFilePersistence accountFilePersistence = new AccountFilePersistence(customerRepository);
         AccountRepository accountRepository = new AccountRepository(accountFilePersistence);
         TransactionFilePersistence transactionFilePersistence = new TransactionFilePersistence(accountRepository);

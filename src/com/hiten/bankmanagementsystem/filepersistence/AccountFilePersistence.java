@@ -7,6 +7,7 @@ import com.hiten.bankmanagementsystem.model.Customer;
 import com.hiten.bankmanagementsystem.repository.CustomerRepository;
 
 import java.io.*;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public class AccountFilePersistence {
                 Account account =  new Account(customer, accountId, accountType, currentBalance, accountStatus, createdAt);
                 accountList.add(account);
             }
-        }catch (IOException e){
+        }catch (IOException | SQLException e){
             throw new RuntimeException("Unable to load accounts.", e);
         }
         return accountList;

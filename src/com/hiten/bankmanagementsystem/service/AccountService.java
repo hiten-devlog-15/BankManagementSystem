@@ -1,4 +1,5 @@
 package com.hiten.bankmanagementsystem.service;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class AccountService {
     }
 
     // Create Account
-    public void createAccount(int customerId, AccountType accountType, int initialDeposit) {
+    public void createAccount(int customerId, AccountType accountType, int initialDeposit) throws SQLException {
         Customer customer = customerRepository.findCustomerById(customerId);
         if (accountRepository.existsByCustomer(customer)) {
             throw new AccountAlreadyExistsException();

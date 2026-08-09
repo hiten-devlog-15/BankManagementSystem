@@ -33,12 +33,12 @@ public class CustomerService {
     }
 
     //Search Customer
-    public Customer searchCustomer(int customerId){
+    public Customer searchCustomer(int customerId) throws SQLException {
         return customerRepository.findCustomerById(customerId);
     }
 
     //View All Customers(Admin)
-    public List<Customer> viewAllCustomer(){
+    public List<Customer> viewAllCustomer() throws SQLException{
         return customerRepository.findAllCustomers();
     }
 }
