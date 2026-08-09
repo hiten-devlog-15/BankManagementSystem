@@ -27,7 +27,7 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         CustomerRepository customerRepository = new CustomerRepository();
         AccountFilePersistence accountFilePersistence = new AccountFilePersistence(customerRepository);
-        AccountRepository accountRepository = new AccountRepository(accountFilePersistence);
+        AccountRepository accountRepository = new AccountRepository(customerRepository);
         TransactionFilePersistence transactionFilePersistence = new TransactionFilePersistence(accountRepository);
         TransactionRepository transactionRepository = new TransactionRepository(transactionFilePersistence);
         IdGenerator idGenerator = new IdGenerator();
@@ -185,7 +185,7 @@ public class Main {
                     System.out.println("Enter AccountID");
                     accountId = scanner.nextInt();
                     try{
-                        int balance = accountService.checkBalance(accountId);
+                        double balance = accountService.checkBalance(accountId);
                         System.out.println("Current Balance: " + balance);
 
                     }catch (BankException e){

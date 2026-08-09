@@ -27,13 +27,13 @@ public class Transaction {
         return date;
     }
 
-    public int getBalanceAfterTransaction() {
+    public double getBalanceAfterTransaction() {
         return balanceAfterTransaction;
     }
 
-    private final int balanceAfterTransaction;
+    private final double balanceAfterTransaction;
 
-    public Transaction(int transactionId, Account account, TransactionType type, int amount, LocalDate date, int currentBalance){
+    public Transaction(int transactionId, Account account, TransactionType type, int amount, LocalDate date, double currentBalance){
         this.transactionId = transactionId;
         this.account = account;
         this.transactionType = type;

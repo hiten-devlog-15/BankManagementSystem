@@ -41,7 +41,7 @@ public class AccountService {
             throw new AccountAlreadyExistsException();
         }
         validator.validateInitialDeposit(accountType, initialDeposit);
-        Account account = new Account(customer, idGenerator.generateAccountId(), accountType, initialDeposit,
+        Account account = new Account(idGenerator.generateAccountId(), customer, accountType, initialDeposit,
                 AccountStatus.ACTIVE, LocalDate.now());
         accountRepository.saveAccount(account);
     }
@@ -54,7 +54,7 @@ public class AccountService {
     }
 
     //Deposit Operation
-    public void deposit(int accountId, int amount, String password) {
+    public void deposit(int accountId, int amount, String password) throws SQLException {
         Account account = accountRepository.findAccountById(accountId);
         validator.isAccountActive(account);
         validator.validateAmount(amount);
@@ -64,7 +64,7 @@ public class AccountService {
     }
 
     //Withdraw Operation
-    public void withdraw(int accountId, int amount, String password){
+    public void withdraw(int accountId, int amount, String password) throws SQLException {
         Account account = accountRepository.findAccountById(accountId);
         validator.isAccountActive(account);
         validator.validateAmount(amount);
@@ -85,7 +85,7 @@ public class AccountService {
     }
 
     //Transfer Money Operation
-    public void transfer(int senderAccountId, int receiverAccountId, int amount, String password){
+    public void transfer(int senderAccountId, int receiverAccountId, int amount, String password) throws SQLException {
         Account senderAccount = accountRepository.findAccountById(senderAccountId);
         Account receiverAccount = accountRepository.findAccountById(receiverAccountId);
         validator.isAccountActive(senderAccount);
@@ -103,24 +103,24 @@ public class AccountService {
     }
 
     //View Transaction History
-    public List<Transaction> getTransactionHistory(int accountId){
+    public List<Transaction> getTransactionHistory(int accountId) throws SQLException {
         Account account = accountRepository.findAccountById(accountId);
         return transactionRepository.findTransactionsByAccount(account);
     }
 
     //View Account
-    public Account getAccountDetails(int accountId){
+    public Account getAccountDetails(int accountId) throws SQLException {
         return accountRepository.findAccountById(accountId);
     }
 
     //Check Balance
-    public int checkBalance(int accountId){
+    public double checkBalance(int accountId) throws SQLException {
         Account account = accountRepository.findAccountById(accountId);
         return account.getCurrentBalance();
     }
 
     //Close Account
-    public void closeAccount(int accountId, String password){
+    public void closeAccount(int accountId, String password) throws SQLException {
         Account account = accountRepository.findAccountById(accountId);
         validator.isAccountActive(account);
         verifyPassword(account, password);

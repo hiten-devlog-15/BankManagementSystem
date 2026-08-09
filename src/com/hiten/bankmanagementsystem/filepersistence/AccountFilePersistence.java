@@ -56,7 +56,7 @@ public class AccountFilePersistence {
                 int currentBalance = Integer.parseInt(accountData[3]);
                 AccountStatus accountStatus = AccountStatus.valueOf(accountData[4]);
                 LocalDate createdAt = LocalDate.parse(accountData[5]);
-                Account account =  new Account(customer, accountId, accountType, currentBalance, accountStatus, createdAt);
+                Account account =  new Account(accountId, customer, accountType, currentBalance, accountStatus, createdAt);
                 accountList.add(account);
             }
         }catch (IOException | SQLException e){

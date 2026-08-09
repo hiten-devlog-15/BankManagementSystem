@@ -126,17 +126,18 @@ public class CustomerRepository {
         List<Customer> customerList = new ArrayList<>();
         String query = "SELECT customer_id, customer_name, phone_number, email, pass_word, created_at FROM customers";
         try(Connection connection = DatabaseConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)){
-            try(ResultSet resultSet = preparedStatement.executeQuery()){
-                while(resultSet.next()){
-                    customerList.add(new Customer(resultSet.getInt("customer_id"),
-                            resultSet.getString("customer_name"),
-                            resultSet.getString("phone_number"),
-                            resultSet.getString("email"),
-                            resultSet.getString("pass_word"),
-                            resultSet.getDate("created_at").toLocalDate()));
-                }
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery()){
+
+            while(resultSet.next()){
+                customerList.add(new Customer(resultSet.getInt("customer_id"),
+                        resultSet.getString("customer_name"),
+                        resultSet.getString("phone_number"),
+                        resultSet.getString("email"),
+                        resultSet.getString("pass_word"),
+                        resultSet.getDate("created_at").toLocalDate()));
             }
+
         }
         return customerList;
     }
