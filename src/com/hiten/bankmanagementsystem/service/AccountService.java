@@ -77,7 +77,7 @@ public class AccountService {
     }
 
     //Create Transaction
-    private void createTransaction(Account account, TransactionType type, int amount){
+    private void createTransaction(Account account, TransactionType type, double amount) throws SQLException {
         int transactionId = idGenerator.generateTransactionId();
         LocalDate date = LocalDate.now();
         Transaction transaction = new Transaction(transactionId, account, type, amount, date, account.getCurrentBalance());
@@ -85,7 +85,7 @@ public class AccountService {
     }
 
     //Transfer Money Operation
-    public void transfer(int senderAccountId, int receiverAccountId, int amount, String password) throws SQLException {
+    public void transfer(int senderAccountId, int receiverAccountId, double amount, String password) throws SQLException {
         Account senderAccount = accountRepository.findAccountById(senderAccountId);
         Account receiverAccount = accountRepository.findAccountById(receiverAccountId);
         validator.isAccountActive(senderAccount);
@@ -129,7 +129,7 @@ public class AccountService {
     }
 
     //View All Accounts(Admin)
-    public List<Account> getAllAccounts(){
+    public List<Account> getAllAccounts() throws SQLException {
         return accountRepository.findAllAccounts();
     }
 }

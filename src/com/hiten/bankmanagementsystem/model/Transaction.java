@@ -5,11 +5,12 @@ import com.hiten.bankmanagementsystem.enums.TransactionType;
 
 public class Transaction {
 
-    private final int transactionId;
+    private int transactionId;
     private final Account account;
     private final TransactionType transactionType;
-    private final int amount;
+    private final double amount;
     private final LocalDate date;
+    private final double balanceAfterTransaction;
 
     public int getTransactionId() {
         return transactionId;
@@ -19,7 +20,7 @@ public class Transaction {
         return transactionType;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
@@ -31,9 +32,13 @@ public class Transaction {
         return balanceAfterTransaction;
     }
 
-    private final double balanceAfterTransaction;
+    public void setTransactionId(int transactionId){
+        this.transactionId = transactionId;
+    }
 
-    public Transaction(int transactionId, Account account, TransactionType type, int amount, LocalDate date, double currentBalance){
+
+
+    public Transaction(int transactionId, Account account, TransactionType type, double amount, LocalDate date, double currentBalance){
         this.transactionId = transactionId;
         this.account = account;
         this.transactionType = type;

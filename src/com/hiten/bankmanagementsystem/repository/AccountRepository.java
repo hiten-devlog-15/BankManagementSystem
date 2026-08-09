@@ -3,14 +3,12 @@ package com.hiten.bankmanagementsystem.repository;
 import com.hiten.bankmanagementsystem.enums.AccountStatus;
 import com.hiten.bankmanagementsystem.enums.AccountType;
 import com.hiten.bankmanagementsystem.exception.AccountNotFoundException;
-import com.hiten.bankmanagementsystem.filepersistence.AccountFilePersistence;
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
 import com.hiten.bankmanagementsystem.util.DatabaseConnection;
 
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

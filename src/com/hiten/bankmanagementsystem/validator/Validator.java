@@ -19,7 +19,7 @@ public class Validator {
          }
     }
 
-    public void validateAmount(int amount){
+    public void validateAmount(double amount){
         if(!(amount>0)){
             throw new InvalidAmountException();
         }
@@ -31,7 +31,7 @@ public class Validator {
         }
     }
 
-    public void validateInitialDeposit(AccountType accountType, int initialDeposit) {
+    public void validateInitialDeposit(AccountType accountType, double initialDeposit) {
         if (accountType == AccountType.SAVINGS && initialDeposit < 2000) {
             throw new InvalidAmountException();
         }
