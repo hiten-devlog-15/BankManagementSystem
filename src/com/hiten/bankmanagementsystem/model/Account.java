@@ -13,6 +13,14 @@ public class Account {
     private AccountStatus accountStatus;
     private final LocalDate createdAt;
 
+    public Account(Customer customer, AccountType accountType, double currentBalance, AccountStatus accountStatus, LocalDate createdAt){
+        this.customer = customer;
+        this.accountType = accountType;
+        this.currentBalance = currentBalance;
+        this.accountStatus = accountStatus;
+        this.createdAt = createdAt;
+    }
+
     public Account(int accountId, Customer customer, AccountType accountType, double currentBalance, AccountStatus accountStatus, LocalDate createdAt){
         this.accountId = accountId;
         this.customer = customer;

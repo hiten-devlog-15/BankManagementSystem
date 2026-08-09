@@ -2,9 +2,6 @@ package com.hiten.bankmanagementsystem;
 
 import com.hiten.bankmanagementsystem.enums.AccountType;
 import com.hiten.bankmanagementsystem.exception.BankException;
-import com.hiten.bankmanagementsystem.filepersistence.AccountFilePersistence;
-import com.hiten.bankmanagementsystem.filepersistence.CustomerFilePersistence;
-import com.hiten.bankmanagementsystem.filepersistence.TransactionFilePersistence;
 import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
 import com.hiten.bankmanagementsystem.model.Transaction;
@@ -14,8 +11,6 @@ import com.hiten.bankmanagementsystem.repository.TransactionRepository;
 import com.hiten.bankmanagementsystem.service.AccountService;
 import com.hiten.bankmanagementsystem.service.CustomerService;
 import com.hiten.bankmanagementsystem.service.TransactionService;
-import com.hiten.bankmanagementsystem.util.DatabaseConnection;
-import com.hiten.bankmanagementsystem.util.IdGenerator;
 import com.hiten.bankmanagementsystem.validator.Validator;
 
 
@@ -26,15 +21,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws SQLException {
         CustomerRepository customerRepository = new CustomerRepository();
-        AccountFilePersistence accountFilePersistence = new AccountFilePersistence(customerRepository);
         AccountRepository accountRepository = new AccountRepository(customerRepository);
-        TransactionFilePersistence transactionFilePersistence = new TransactionFilePersistence(accountRepository);
         TransactionRepository transactionRepository = new TransactionRepository(accountRepository);
-        IdGenerator idGenerator = new IdGenerator();
         Validator validator = new Validator();
-        CustomerService customerService = new CustomerService(customerRepository, idGenerator, validator);
-        AccountService accountService =new AccountService(customerRepository, accountRepository, transactionRepository,
-                idGenerator, validator);
+        CustomerService customerService = new CustomerService(customerRepository, validator);
+        AccountService accountService =new AccountService(customerRepository, accountRepository, transactionRepository, validator);
         TransactionService transactionService = new TransactionService(transactionRepository);
 
         Scanner scanner = new Scanner(System.in);
@@ -77,9 +68,9 @@ public class Main {
                     System.out.println("Enter password");
                     String password = scanner.next();
                     try{
-                        customerService.registerCustomer(name, phoneNumber, email, password);
+                        Customer customer = customerService.registerCustomer(name, phoneNumber, email, password);
                         System.out.println("Customer registered successfully. Your CustomerID is " +
-                                idGenerator.getCustomerId());
+                                customer.getCustomerId());
                     } catch (BankException e) {
                         System.out.println(e.getMessage());
                     }
@@ -93,8 +84,8 @@ public class Main {
                     System.out.println("Enter Initial Deposit");
                     int initialDeposit = scanner.nextInt();
                     try{
-                        accountService.createAccount(customerID, accountType, initialDeposit);
-                        System.out.println("Account created Successfully " + idGenerator.getAccountId());
+                        Account account = accountService.createAccount(customerID, accountType, initialDeposit);
+                        System.out.println("Account created Successfully " + account.getAccountId());
                     }catch (BankException e){
                         System.out.println(e.getMessage());
                     }

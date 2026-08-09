@@ -10,12 +10,10 @@ import com.hiten.bankmanagementsystem.util.DatabaseConnection;
 
 public class TransactionRepository {
 
-//    private final TransactionFilePersistence transactionFilePersistence;
     private final AccountRepository accountRepository;
 
     public TransactionRepository(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
-//        transactionList = transactionFilePersistence.loadTransactions();
     }
 
     public void saveTransaction(Transaction transaction) throws SQLException {
@@ -36,8 +34,6 @@ public class TransactionRepository {
                 }
             }
         }
-//        transactionList.add(transaction);
-//        transactionFilePersistence.saveTransaction(transaction);
     }
 
     public List<Transaction> findTransactionsByAccount(Account account) throws SQLException{
@@ -62,11 +58,6 @@ public class TransactionRepository {
                 }
             }
         }
-//        for(Transaction transaction : transactionList){
-//            if(transaction.getAccount().equals(account)){
-//                transactionHistory.add(transaction);
-//            }
-//        }
         return transactionHistory;
     }
 
@@ -92,5 +83,4 @@ public class TransactionRepository {
         }
         return transactionHistory;
     }
-
 }

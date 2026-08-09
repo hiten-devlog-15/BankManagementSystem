@@ -6,6 +6,7 @@ import com.hiten.bankmanagementsystem.model.Transaction;
 import com.hiten.bankmanagementsystem.repository.AccountRepository;
 
 import java.io.*;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class TransactionFilePersistence {
         }
     }
 
-    public List<Transaction> loadTransactions(){
+    public List<Transaction> loadTransactions() throws SQLException {
         List<Transaction> transactionList = new ArrayList<>();
 
         File file = new File(FILE_PATH);

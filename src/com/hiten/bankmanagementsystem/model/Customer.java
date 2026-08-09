@@ -10,6 +10,14 @@ public class Customer {
     private final String password;
     private final LocalDate createdAt;
 
+    public Customer(String name, String phoneNumber, String email, String password, LocalDate createdAt){
+        this.name=name;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.createdAt = createdAt;
+    }
+
     public Customer(int customerId, String name, String phoneNumber, String email, String password, LocalDate createdAt){
         this.customerId = customerId;
         this.name=name;

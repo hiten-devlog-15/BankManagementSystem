@@ -30,8 +30,6 @@ public class CustomerRepository {
                 }
             }
         }
-//        customerList.add(customer);
-//        customerFilePersistence.saveCustomer(customer);
     }
 
     public Customer findCustomerByEmail(String email) throws SQLException{
@@ -51,12 +49,6 @@ public class CustomerRepository {
                 }
             }
         }
-
-//        for(Customer customer : customerList){
-//            if(customer.getEmail().equals(email)){ //Particular customer email equal to email im passing
-//                return customer;
-//            }
-//        }
         return null;
     }
 
@@ -77,11 +69,6 @@ public class CustomerRepository {
                 }
             }
         }
-//        for(Customer customer : customerList){
-//            if(customer.getPhoneNumber().equals(phoneNumber)){
-//                return customer;
-//            }
-//        }
         return null;
     }
 
@@ -102,11 +89,6 @@ public class CustomerRepository {
                 }
             }
         }
-//        for(Customer customer : customerList){
-//            if(customer.getCustomerId() == customerId){
-//                return customer;
-//            }
-//        }
         throw new CustomerNotFoundException();
     }
 
@@ -128,7 +110,6 @@ public class CustomerRepository {
         try(Connection connection = DatabaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery()){
-
             while(resultSet.next()){
                 customerList.add(new Customer(resultSet.getInt("customer_id"),
                         resultSet.getString("customer_name"),
@@ -137,7 +118,6 @@ public class CustomerRepository {
                         resultSet.getString("pass_word"),
                         resultSet.getDate("created_at").toLocalDate()));
             }
-
         }
         return customerList;
     }

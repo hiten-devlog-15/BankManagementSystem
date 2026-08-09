@@ -7,11 +7,9 @@ import com.hiten.bankmanagementsystem.model.Account;
 import com.hiten.bankmanagementsystem.model.Customer;
 import com.hiten.bankmanagementsystem.util.DatabaseConnection;
 
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class AccountRepository {
 
@@ -19,7 +17,6 @@ public class AccountRepository {
 
     public AccountRepository(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
-//        accountList = accountFilePersistence.loadAccounts();
     }
 
     public void saveAccount(Account account) throws SQLException {
@@ -40,8 +37,6 @@ public class AccountRepository {
                 }
             }
         }
-//        accountList.add(account);
-//        accountFilePersistence.saveAccount(account);
     }
 
     public boolean existsByCustomer(Customer customer) throws SQLException{
@@ -56,12 +51,6 @@ public class AccountRepository {
                 }
             }
         }
-
-//        for(Account account : accountList){
-//            if(account.getCustomer().equals(customer)){
-//                return true;
-//            }
-//        }
         return false;
     }
 
@@ -88,11 +77,6 @@ public class AccountRepository {
                 }
             }
         }
-//        for(Account account : accountList){
-//            if(account.getAccountId() == accountId){
-//                return account;
-//            }
-//        }
         throw new AccountNotFoundException();
     }
 
@@ -116,9 +100,28 @@ public class AccountRepository {
                             resultSet.getDate("created_at").toLocalDate())
                             );
                 }
-
         }
         return accountList;
     }
 
+    public void updateBalance(int accountId, double newBalance) throws SQLException {
+        String query = "UPDATE accounts SET current_balance = ? WHERE account_id = ?";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setDouble(1, newBalance);
+            preparedStatement.setInt(2, accountId);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    public void updateStatus(int accountId, AccountStatus status) throws SQLException{
+        String query = "UPDATE accounts SET account_status = ? WHERE account_id = ?";
+        try(Connection connection = DatabaseConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)
+        ){
+            preparedStatement.setString(1, status.name());
+            preparedStatement.setInt(2, accountId);
+            preparedStatement.executeUpdate();
+        }
+    }
 }

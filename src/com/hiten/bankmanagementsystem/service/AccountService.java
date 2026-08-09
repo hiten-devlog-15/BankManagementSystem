@@ -15,35 +15,32 @@ import com.hiten.bankmanagementsystem.model.Transaction;
 import com.hiten.bankmanagementsystem.repository.AccountRepository;
 import com.hiten.bankmanagementsystem.repository.CustomerRepository;
 import com.hiten.bankmanagementsystem.repository.TransactionRepository;
-import com.hiten.bankmanagementsystem.util.IdGenerator;
 import com.hiten.bankmanagementsystem.validator.Validator;
 
 public class AccountService {
     private final AccountRepository accountRepository;
     private final CustomerRepository customerRepository;
-    private final IdGenerator idGenerator;
     private final Validator validator;
     private final TransactionRepository transactionRepository;
 
-    public AccountService(CustomerRepository customerRepository, AccountRepository accountRepository,  TransactionRepository transactionRepository, IdGenerator idGenerator,
+    public AccountService(CustomerRepository customerRepository, AccountRepository accountRepository,  TransactionRepository transactionRepository,
                           Validator validator){
         this.customerRepository = customerRepository;
         this.accountRepository = accountRepository;
         this.transactionRepository = transactionRepository;
-        this.idGenerator = idGenerator;
         this.validator = validator;
     }
 
     // Create Account
-    public void createAccount(int customerId, AccountType accountType, int initialDeposit) throws SQLException {
+    public Account createAccount(int customerId, AccountType accountType, int initialDeposit) throws SQLException {
         Customer customer = customerRepository.findCustomerById(customerId);
         if (accountRepository.existsByCustomer(customer)) {
             throw new AccountAlreadyExistsException();
         }
         validator.validateInitialDeposit(accountType, initialDeposit);
-        Account account = new Account(idGenerator.generateAccountId(), customer, accountType, initialDeposit,
-                AccountStatus.ACTIVE, LocalDate.now());
+        Account account = new Account(customer, accountType, initialDeposit, AccountStatus.ACTIVE, LocalDate.now());
         accountRepository.saveAccount(account);
+        return account;
     }
 
     //Verify Password
@@ -60,6 +57,7 @@ public class AccountService {
         validator.validateAmount(amount);
         verifyPassword(account, password);
         account.deposit(amount);
+        accountRepository.updateBalance(account.getAccountId(), account.getCurrentBalance());
         createTransaction(account, TransactionType.DEPOSIT, amount);
     }
 
@@ -73,19 +71,19 @@ public class AccountService {
             throw new InsufficientBalanceException();
         }
         account.withdraw(amount);
+        accountRepository.updateBalance(account.getAccountId(), account.getCurrentBalance());
         createTransaction(account, TransactionType.WITHDRAW, amount);
     }
 
     //Create Transaction
-    private void createTransaction(Account account, TransactionType type, double amount) throws SQLException {
-        int transactionId = idGenerator.generateTransactionId();
+    private void createTransaction(Account account, TransactionType type, int amount) throws SQLException{
         LocalDate date = LocalDate.now();
-        Transaction transaction = new Transaction(transactionId, account, type, amount, date, account.getCurrentBalance());
+        Transaction transaction = new Transaction(account, type, amount, date, account.getCurrentBalance());
         transactionRepository.saveTransaction(transaction);
     }
 
     //Transfer Money Operation
-    public void transfer(int senderAccountId, int receiverAccountId, double amount, String password) throws SQLException {
+    public void transfer(int senderAccountId, int receiverAccountId, int amount, String password) throws SQLException {
         Account senderAccount = accountRepository.findAccountById(senderAccountId);
         Account receiverAccount = accountRepository.findAccountById(receiverAccountId);
         validator.isAccountActive(senderAccount);
@@ -97,7 +95,9 @@ public class AccountService {
             throw new InsufficientBalanceException();
         }
         senderAccount.withdraw(amount);
+        accountRepository.updateBalance(senderAccount.getAccountId(), senderAccount.getCurrentBalance());
         receiverAccount.deposit(amount);
+        accountRepository.updateBalance(receiverAccount.getAccountId(), receiverAccount.getCurrentBalance());
         createTransaction(senderAccount, TransactionType.TRANSFER_OUT, amount);
         createTransaction(receiverAccount, TransactionType.TRANSFER_IN, amount);
     }
@@ -126,6 +126,7 @@ public class AccountService {
         verifyPassword(account, password);
         validator.checkBalanceIsZero(account);
         account.closeAccount();
+        accountRepository.updateStatus(account.getAccountId(), account.getAccountStatus());
     }
 
     //View All Accounts(Admin)

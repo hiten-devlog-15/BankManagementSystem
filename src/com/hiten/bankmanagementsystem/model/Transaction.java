@@ -36,7 +36,14 @@ public class Transaction {
         this.transactionId = transactionId;
     }
 
-
+    public Transaction(Account account, TransactionType type, double amount, LocalDate date, double currentBalance){
+        this.transactionId = transactionId;
+        this.account = account;
+        this.transactionType = type;
+        this.amount = amount;
+        this.date = date;
+        this.balanceAfterTransaction = currentBalance;
+    }
 
     public Transaction(int transactionId, Account account, TransactionType type, double amount, LocalDate date, double currentBalance){
         this.transactionId = transactionId;
