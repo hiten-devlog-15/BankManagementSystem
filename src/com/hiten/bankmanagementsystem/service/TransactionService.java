@@ -16,5 +16,4 @@ public class TransactionService {
     public List<Transaction> getAllTransactions() throws SQLException {
         return transactionRepository.findAllTransactions();
     }
-
 }

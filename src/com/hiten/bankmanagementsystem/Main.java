@@ -13,7 +13,6 @@ import com.hiten.bankmanagementsystem.service.CustomerService;
 import com.hiten.bankmanagementsystem.service.TransactionService;
 import com.hiten.bankmanagementsystem.validator.Validator;
 
-
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
@@ -54,7 +53,6 @@ public class Main {
                     "Enter Choice:");
 
             int choice = scanner.nextInt();
-
             scanner.nextLine();
 
             switch (choice){
@@ -256,7 +254,6 @@ public class Main {
                 default:
                     System.out.println("Invalid Choice");
             }
-
         }while (keepRunning);
     }
 }

@@ -20,7 +20,7 @@ public class AccountRepository {
     }
 
     public void saveAccount(Account account) throws SQLException {
-        String query = "INSERT INTO accounts(customer_id, account_type, current_balance, account_status, created_at) VALUES(?, ?, ?, ?, ?) ";
+        String query = "INSERT INTO accounts(customer_id, account_type, current_balance, account_status, created_at) VALUES(?, ?::account_category, ?, ?::account_status, ?) ";
         try(Connection connection = DatabaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)
         ){
@@ -115,7 +115,7 @@ public class AccountRepository {
     }
 
     public void updateStatus(int accountId, AccountStatus status) throws SQLException{
-        String query = "UPDATE accounts SET account_status = ? WHERE account_id = ?";
+        String query = "UPDATE accounts SET account_status = ?::account_status WHERE account_id = ?";
         try(Connection connection = DatabaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query)
         ){

@@ -17,7 +17,7 @@ public class TransactionRepository {
     }
 
     public void saveTransaction(Transaction transaction) throws SQLException {
-        String query = "INSERT INTO transactions(account_id, transaction_type, amount, date_of_transaction, balance_after_transaction) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO transactions(account_id, transaction_type, amount, date_of_transaction, balance_after_transaction) VALUES (?, ?::transaction_type, ?, ?, ?)";
         try(Connection connection = DatabaseConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)
         ){
